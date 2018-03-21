@@ -22,6 +22,7 @@
 
 #include "ddialog.h"
 #include <QPlainTextEdit>
+#include <QComboBox>
 
 DWIDGET_USE_NAMESPACE
 
@@ -35,6 +36,7 @@ public:
 
 private:
     QPlainTextEdit *m_textEdit;
+    QComboBox *m_comboBox;
 };
 
 #endif
