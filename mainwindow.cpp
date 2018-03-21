@@ -48,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     initAria2c();
     resize(900, 588);
 
+    setStyleSheet(Utils::getQssContent(":/qss/style.qss"));
     setFocusPolicy(Qt::ClickFocus);
 }
 

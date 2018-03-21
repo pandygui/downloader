@@ -19,6 +19,7 @@
 
 #include "utils.h"
 #include <QProcess>
+#include <QFile>
 #include <QDebug>
 
 Utils::Utils(QObject *parent)
@@ -29,4 +30,16 @@ Utils::Utils(QObject *parent)
 
 Utils::~Utils()
 {
+}
+
+QString Utils::getQssContent(const QString &filePath)
+{
+    QFile file(filePath);
+    QString qss;
+
+    if (file.open(QIODevice::ReadOnly)) {
+        qss = file.readAll();
+    }
+
+    return qss;
 }

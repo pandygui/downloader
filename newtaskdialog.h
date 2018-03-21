@@ -17,34 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TOOLBAR_H
-#define TOOLBAR_H
+#ifndef NEWTASKDIALOG_H
+#define NEWTASKDIALOG_H
 
-#include <QWidget>
-#include "dimagebutton.h"
-#include "dsearchedit.h"
+#include "ddialog.h"
+#include <QPlainTextEdit>
 
 DWIDGET_USE_NAMESPACE
 
-class ToolBar : public QWidget
+class NewTaskDialog : public DDialog
 {
     Q_OBJECT
 
 public:
-    ToolBar(QWidget *parent = nullptr);
-    ~ToolBar();
-
-private slots:
-    void showToolsButton();
-    void showSearchEdit();
+    NewTaskDialog(QWidget *parent = nullptr);
+    ~NewTaskDialog();
 
 private:
-    DImageButton *m_taskAddBtn;
-    DImageButton *m_taskStartBtn;
-    DImageButton *m_taskPauseBtn;
-    DImageButton *m_taskDeleteBtn;
-    DImageButton *m_searchBtn;
-    DSearchEdit *m_searchEdit;
+    QPlainTextEdit *m_textEdit;
 };
 
 #endif

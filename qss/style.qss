@@ -53,3 +53,7 @@ QHeaderView::section {
 QHeaderView::section:checked {
 
 }
+
+QPlainTextEdit {
+    border: 1px solid #f3f3f3;
+}

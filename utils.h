@@ -29,6 +29,8 @@ class Utils : public QObject
 public:
     Utils(QObject *parent = nullptr);
     ~Utils();
+
+    static QString getQssContent(const QString &filePath);
 };
 
 #endif

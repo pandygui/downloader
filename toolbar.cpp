@@ -20,6 +20,7 @@
 #include "toolbar.h"
 #include "dsvgrenderer.h"
 #include "dimagebutton.h"
+#include "newtaskdialog.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -37,6 +38,9 @@ ToolBar::ToolBar(QWidget *parent)
     iconPixmap.setDevicePixelRatio(ratio);
     iconLabel->setPixmap(iconPixmap);
 
+    m_taskAddBtn = new DImageButton(":/images/task_new_normal.svg",
+                                    ":/images/task_new_hover.svg",
+                                    ":/images/task_new_press.svg");
     m_taskStartBtn = new DImageButton(":/images/task_start_normal.svg",
                                       ":/images/task_start_hover.svg",
                                       ":/images/task_start_press.svg");
@@ -52,6 +56,7 @@ ToolBar::ToolBar(QWidget *parent)
 
     m_searchEdit = new DSearchEdit;
 
+    m_taskAddBtn->setFixedSize(24, 24);
     m_taskStartBtn->setFixedSize(24, 24);
     m_taskPauseBtn->setFixedSize(24, 24);
     m_taskDeleteBtn->setFixedSize(24, 24);
@@ -66,6 +71,7 @@ ToolBar::ToolBar(QWidget *parent)
     layout->addSpacing(5);
     layout->addWidget(iconLabel);
     layout->addStretch();
+    layout->addWidget(m_taskAddBtn);
     layout->addWidget(m_taskStartBtn);
     layout->addWidget(m_taskPauseBtn);
     layout->addWidget(m_taskDeleteBtn);
@@ -74,6 +80,12 @@ ToolBar::ToolBar(QWidget *parent)
     layout->addStretch();
 
     setFocusPolicy(Qt::ClickFocus);
+
+    connect(m_taskAddBtn, &DImageButton::clicked, this,
+            [=] {
+                NewTaskDialog dlg;
+                dlg.exec();
+            });
 
     connect(m_searchBtn, &DImageButton::clicked, this, &ToolBar::showSearchEdit);
     connect(m_searchEdit, &DSearchEdit::focusOut, this, &ToolBar::showToolsButton);
@@ -85,6 +97,7 @@ ToolBar::~ToolBar()
 
 void ToolBar::showToolsButton()
 {
+    m_taskAddBtn->setVisible(true);
     m_taskStartBtn->setVisible(true);
     m_taskPauseBtn->setVisible(true);
     m_taskDeleteBtn->setVisible(true);
@@ -94,6 +107,7 @@ void ToolBar::showToolsButton()
 
 void ToolBar::showSearchEdit()
 {
+    m_taskAddBtn->setVisible(false);
     m_taskStartBtn->setVisible(false);
     m_taskPauseBtn->setVisible(false);
     m_taskDeleteBtn->setVisible(false);

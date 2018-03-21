@@ -15,6 +15,7 @@ HEADERS += mainwindow.h \
 	   aria2rpc.h \
 	   slidebar.h \
 	   toolbar.h \
+	   newtaskdialog.h \
 	   utils.h
 
 SOURCES += main.cpp \
@@ -22,6 +23,7 @@ SOURCES += main.cpp \
 	   aria2rpc.cpp \
 	   slidebar.cpp \
 	   toolbar.cpp \
+	   newtaskdialog.cpp \
 	   utils.cpp
 
 RESOURCES += deepin-downloader.qrc
