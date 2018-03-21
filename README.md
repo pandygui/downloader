@@ -1,2 +1,3 @@
-# deepin-downloader
+# Deepin downloader
+
 downloader for deepin.

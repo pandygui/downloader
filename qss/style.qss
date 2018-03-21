@@ -1,0 +1,55 @@
+#SlideBar {
+    border: none;
+    border-right: 1px solid #EDEDEE;
+    background: #F9F9F9;
+}
+
+#SlideBar::item {
+    border: 1px solid #F9F9F9;
+    padding-left: 10px;
+    color: #000000;
+}
+
+#SlideBar::item:hover {
+    border: 1px solid #EEEEEE;
+    background: #EEEEEE;
+}
+
+#SlideBar::item:selected {
+    border: 1px solid #C0E1F9;
+    border-right: 4px solid #2CA7F8;
+    background: #d5edfe;
+    color: #2CA7F8;
+}
+
+QTableView {
+    alternate-background-color: #FAFAFA;
+    margin: 0px;
+}
+
+QTableView::item:selected {
+    border: 0px;
+    background: #2CA7F8;
+    color: #FFFFFF;
+}
+
+
+QHeaderView {
+    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                  stop:0 #f8f8f8, stop:1 rgba(255, 255, 255, 0.8));
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    max-height: 21px;
+}
+
+QHeaderView::section {
+    color: #797979;
+    background: transparent;
+    border: none;
+    padding-left: 10px inset transparent;
+    border-right: 1px inset rgba(0, 0, 0, 0.1);
+    margin-bottom: 1px;
+}
+
+QHeaderView::section:checked {
+
+}
