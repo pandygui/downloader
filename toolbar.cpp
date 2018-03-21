@@ -23,6 +23,7 @@
 #include "newtaskdialog.h"
 
 #include <QHBoxLayout>
+#include <QTimer>
 #include <QLabel>
 
 DWIDGET_USE_NAMESPACE
@@ -66,7 +67,7 @@ ToolBar::ToolBar(QWidget *parent)
     m_searchEdit->setFixedWidth(300);
 
     layout->setMargin(0);
-    layout->setSpacing(30);
+    layout->setSpacing(28);
 
     layout->addSpacing(5);
     layout->addWidget(iconLabel);
@@ -88,7 +89,7 @@ ToolBar::ToolBar(QWidget *parent)
             });
 
     connect(m_searchBtn, &DImageButton::clicked, this, &ToolBar::showSearchEdit);
-    connect(m_searchEdit, &DSearchEdit::focusOut, this, &ToolBar::showToolsButton);
+    connect(m_searchEdit, &DSearchEdit::focusOut, this, [=] { QTimer::singleShot(300, this, &ToolBar::showToolsButton); });
 }
 
 ToolBar::~ToolBar()
