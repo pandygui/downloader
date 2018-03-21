@@ -26,7 +26,8 @@
 NewTaskDialog::NewTaskDialog(QWidget *parent)
     : DDialog(parent)
 {
-    // setTitle(tr("New task"));
+    QLabel *titleLabel = new QLabel(tr("New Task"));
+    titleLabel->setStyleSheet("QLabel { color: #353535; font-size: 15px; }");
 
     QWidget *centralWidget = new QWidget;
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
@@ -52,7 +53,8 @@ NewTaskDialog::NewTaskDialog(QWidget *parent)
     posLayout->addRow(tipsLabel, m_comboBox);
     posLayout->setHorizontalSpacing(10);
 
-    layout->addSpacing(15);
+    layout->addWidget(titleLabel, 0, Qt::AlignHCenter);
+    layout->addSpacing(5);
     layout->addWidget(m_textEdit);
     layout->addSpacing(10);
     layout->addWidget(openFileBtn);
@@ -67,7 +69,7 @@ NewTaskDialog::NewTaskDialog(QWidget *parent)
     addContent(centralWidget);
     addButton(tr("Cancel"));
     addButton(tr("Downlload"));
-    setContentLayoutContentsMargins(QMargins(20, 10, 20, 10));
+    setContentLayoutContentsMargins(QMargins(20, 5, 20, 10));
 }
 
 NewTaskDialog::~NewTaskDialog()
