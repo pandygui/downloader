@@ -72,6 +72,7 @@ NewTaskDialog::NewTaskDialog(QWidget *parent)
     addButton(tr("Cancel"));
     addButton(tr("Downlload"), true, DDialog::ButtonRecommend);
     setContentLayoutContentsMargins(QMargins(20, 5, 20, 10));
+    setOnButtonClickedClose(false);
 
     connect(this, &DDialog::buttonClicked, this, &NewTaskDialog::handleButtonClicked);
 
