@@ -29,3 +29,16 @@ SOURCES += main.cpp \
 	   utils.cpp
 
 RESOURCES += deepin-downloader.qrc
+
+isEmpty(BINDIR):BINDIR=/usr/bin
+isEmpty(APPDIR):APPDIR=/usr/share/applications
+isEmpty(DSRDIR):DSRDIR=/usr/share/deepin-downloader
+
+target.path = $$INSTROOT$$BINDIR
+icon_files.path = $$PREFIX/share/icons/hicolor/scalable/apps/
+icon_files.files = $$PWD/images/deepin-downloader.svg
+
+desktop.path = $$INSTROOT$$APPDIR
+desktop.files = deepin-downloader.desktop
+
+INSTALLS += target desktop icon_files 

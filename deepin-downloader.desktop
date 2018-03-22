@@ -1,0 +1,11 @@
+[Desktop Entry]
+Categories=Utility;
+Exec=deepin-downloader
+Icon=deepin-download
+Name=Deepin Downloader
+StartupNotify=true
+TryExec=deepin-downloader
+Type=Application
+
+# Translations
+Name[zh_CN]=深度下载器
