@@ -21,14 +21,21 @@
 #define TABLEVIEW_H
 
 #include <QTableView>
+#include <QStandardItemModel>
 
 class TableView : public QTableView
 {
     Q_OBJECT
-    
+
 public:
     TableView(QWidget *parent = nullptr);
-    ~TableView(); 
-};	
+    ~TableView();
+
+private:
+    void appendItem(const QString &name);
+
+private:
+    QStandardItemModel *m_itemModel;
+};
 
 #endif

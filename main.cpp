@@ -3,6 +3,7 @@
 #include <DLog>
 
 #include "mainwindow.h"
+#include "utils.h"
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -30,6 +31,8 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.show();
+
+    w.setStyleSheet(Utils::getQssContent(":/qss/style.qss"));
 
     Dtk::Widget::moveToCenter(&w);
 

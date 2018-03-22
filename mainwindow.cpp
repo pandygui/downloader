@@ -52,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowIcon(QIcon(":/images/deepin-downloader.svg"));
 
     initAria2c();
+    setMinimumSize(900, 588);
     resize(900, 588);
 
     setStyleSheet(Utils::getQssContent(":/qss/style.qss"));

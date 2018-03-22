@@ -26,7 +26,9 @@ TaskManager::TaskManager(QWidget *parent)
       m_tableView(new TableView)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
+
     layout->addWidget(m_tableView);
+    layout->setMargin(0);
 }
 
 TaskManager::~TaskManager()

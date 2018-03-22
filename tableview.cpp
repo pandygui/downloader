@@ -18,13 +18,57 @@
  */
 
 #include "tableview.h"
+#include <QHeaderView>
+#include <QStandardItem>
 
-TableView::TableView(QWidget *parent) 
-    : QTableView(parent)
+TableView::TableView(QWidget *parent)
+    : QTableView(parent),
+      m_itemModel(new QStandardItemModel)
 {
-    
+    setModel(m_itemModel);
+
+    QStringList headerTitles;
+    headerTitles << tr("File name") << tr("Size") << tr("Speed")
+                 << tr("Remaining time") << tr("Status");
+
+    m_itemModel->setHorizontalHeaderLabels(headerTitles);
+
+    setShowGrid(false);
+    setAlternatingRowColors(true);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
+    setSelectionMode(QAbstractItemView::SingleSelection);
+    setSelectionBehavior(QAbstractItemView::SelectRows);
+    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+
+    QHeaderView *headerView = horizontalHeader();
+    headerView->setSectionResizeMode(1, QHeaderView::Stretch);
+    headerView->setSectionResizeMode(2, QHeaderView::Stretch);
+    headerView->setSectionResizeMode(3, QHeaderView::Fixed);
+    headerView->setSectionResizeMode(4, QHeaderView::Stretch);
+    headerView->setHighlightSections(false);
+
+    setColumnWidth(0, 300);
+    setColumnWidth(1, 100);
+    setColumnWidth(2, 100);
+    setColumnWidth(3, 160);
+    setColumnWidth(4, 100);
+
+    for (int i = 0; i < 100; ++i) {
+        appendItem("hhhhh" + QString::number(i));
+    }
 }
 
 TableView::~TableView()
 {
+}
+
+void TableView::appendItem(const QString &name)
+{
+    int row = m_itemModel->rowCount();
+    m_itemModel->insertRow(row);
+
+    QStandardItem *listItem = new QStandardItem(name);
+    m_itemModel->setItem(row, 0, listItem);
+    setRowHeight(row, 45);
 }
