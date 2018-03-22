@@ -22,6 +22,7 @@
 #include <QFormLayout>
 #include <QPushButton>
 #include <QLabel>
+#include <QDebug>
 
 NewTaskDialog::NewTaskDialog(QWidget *parent)
     : DDialog(parent)
@@ -63,15 +64,29 @@ NewTaskDialog::NewTaskDialog(QWidget *parent)
     layout->addSpacing(15);
     layout->addStretch();
     layout->setMargin(0);
+    // int btn2 = addButton( tr("Download"), true, DDialog::ButtonRecommend );
 
     centralWidget->setFixedWidth(440);
 
     addContent(centralWidget);
     addButton(tr("Cancel"));
-    addButton(tr("Downlload"));
+    addButton(tr("Downlload"), true, DDialog::ButtonRecommend);
     setContentLayoutContentsMargins(QMargins(20, 5, 20, 10));
+
+    connect(this, &DDialog::buttonClicked, this, &NewTaskDialog::handleButtonClicked);
+
 }
 
 NewTaskDialog::~NewTaskDialog()
 {
+}
+
+void NewTaskDialog::handleButtonClicked(const int &index, const QString &text)
+{
+    qDebug() << index << text;
+
+    if (index == 1) {
+    } else {
+        close();
+    }
 }

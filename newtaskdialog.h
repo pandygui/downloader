@@ -34,6 +34,9 @@ public:
     NewTaskDialog(QWidget *parent = nullptr);
     ~NewTaskDialog();
 
+private slots:
+    void handleButtonClicked(const int &index, const QString &text);
+
 private:
     QPlainTextEdit *m_textEdit;
     QComboBox *m_comboBox;
