@@ -46,7 +46,7 @@ NewTaskDialog::NewTaskDialog(QWidget *parent)
 
     m_comboBox = new QComboBox;
     m_comboBox->addItem(QIcon(":/images/folder-downloads.svg"),
-                        tr("Download"), "");
+                        tr("Downloads"), "");
     m_comboBox->addItem(QIcon(":/images/folder-desktop.svg"),
                         tr("Desktop"), "");
     m_comboBox->setFixedHeight(25);
@@ -64,7 +64,6 @@ NewTaskDialog::NewTaskDialog(QWidget *parent)
     layout->addSpacing(15);
     layout->addStretch();
     layout->setMargin(0);
-    // int btn2 = addButton( tr("Download"), true, DDialog::ButtonRecommend );
 
     centralWidget->setFixedWidth(440);
 
@@ -87,7 +86,14 @@ void NewTaskDialog::handleButtonClicked(const int &index, const QString &text)
     qDebug() << index << text;
 
     if (index == 1) {
-    } else {
-        close();
+        const QString urls = m_textEdit->toPlainText();
+
+        if (!urls.isEmpty()) {
+            Q_EMIT startDownload(urls);
+        } else {
+            return;
+        }
     }
+
+    close();
 }

@@ -18,11 +18,16 @@
  */
 
 #include "slidebar.h"
+#include <QLabel>
 
 SlideBar::SlideBar(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent),
+      m_layout(new QVBoxLayout(this))
 {
+    m_layout->addWidget(new QLabel("slidebar"));
 
+    setStyleSheet("background: #2ca7f8;");
+    setFixedWidth(200);
 }
 
 SlideBar::~SlideBar()

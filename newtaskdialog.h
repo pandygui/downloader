@@ -34,6 +34,9 @@ public:
     NewTaskDialog(QWidget *parent = nullptr);
     ~NewTaskDialog();
 
+signals:
+    void startDownload(const QString &url);
+
 private slots:
     void handleButtonClicked(const int &index, const QString &text);
 

@@ -19,11 +19,14 @@
 
 #include "taskmanager.h"
 #include <QVBoxLayout>
+#include <QLabel>
 
 TaskManager::TaskManager(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent),
+      m_tableView(new TableView)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->addWidget(m_tableView);
 }
 
 TaskManager::~TaskManager()

@@ -24,6 +24,7 @@
 #include <QHBoxLayout>
 #include "toolbar.h"
 #include "slidebar.h"
+#include "taskmanager.h"
 #include "aria2rpc.h"
 
 DWIDGET_USE_NAMESPACE
@@ -38,10 +39,15 @@ public:
 
 private:
     void initAria2c();
+    
+private slots:
+    void onNewTaskBtnClicked();
+    void handleAddNewTask(const QString &url);
 
 private:
     ToolBar *m_toolBar;
     SlideBar *m_slideBar;
+    TaskManager *m_taskManager;
     Aria2RPC *m_aria2RPC;
 };
 

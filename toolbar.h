@@ -34,6 +34,9 @@ public:
     ToolBar(QWidget *parent = nullptr);
     ~ToolBar();
 
+signals:
+    void newTaskBtnClicked();
+
 private slots:
     void showToolsButton();
     void showSearchEdit();

@@ -17,22 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SLIDEBAR_H
-#define SLIDEBAR_H
+#ifndef TABLEVIEW_H
+#define TABLEVIEW_H
 
-#include <QWidget>
-#include <QVBoxLayout>
+#include <QTableView>
 
-class SlideBar : public QWidget
+class TableView : public QTableView
 {
     Q_OBJECT
-
-public:
-    SlideBar(QWidget *parent = nullptr);
-    ~SlideBar();
     
-private:
-    QVBoxLayout *m_layout;
-};
+public:
+    TableView(QWidget *parent = nullptr);
+    ~TableView(); 
+};	
 
 #endif

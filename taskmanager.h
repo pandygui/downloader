@@ -21,6 +21,7 @@
 #define TASKMANAGER_H
 
 #include <QWidget>
+#include "tableview.h"
 
 class TaskManager : public QWidget
 {
@@ -29,6 +30,9 @@ class TaskManager : public QWidget
 public:
     TaskManager(QWidget *parent = nullptr);
     ~TaskManager();
+
+private:
+    TableView *m_tableView;
 };
 
 #endif

@@ -17,6 +17,7 @@ HEADERS += mainwindow.h \
 	   toolbar.h \
 	   newtaskdialog.h \
 	   taskmanager.h \
+	   tableview.h \
 	   utils.h
 
 SOURCES += main.cpp \
@@ -26,6 +27,7 @@ SOURCES += main.cpp \
 	   toolbar.cpp \
 	   newtaskdialog.cpp \
 	   taskmanager.cpp \
+	   tableview.cpp \
 	   utils.cpp
 
 RESOURCES += deepin-downloader.qrc
