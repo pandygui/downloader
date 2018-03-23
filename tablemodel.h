@@ -40,7 +40,7 @@ public:
     GlobalStruct *find(const QString &gid);
     QList<GlobalStruct *> *dataList() { return m_dataList; };
 
-public:
+protected:
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;

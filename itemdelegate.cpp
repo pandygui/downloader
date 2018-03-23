@@ -41,6 +41,11 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
     const QRect rect = option.rect;
 
+    if (option.state & QStyle::State_Selected) {
+        painter->setPen(Qt::black);
+        painter->fillRect(rect, QColor("#D5EDFE"));
+    }
+
     switch (index.column()) {
     case TableModel::FileName:
         painter->drawText(QRect(rect).marginsRemoved(QMargins(10, 0, 0, 0)), Qt::AlignVCenter | Qt::AlignLeft, index.data(TableModel::FileName).toString());

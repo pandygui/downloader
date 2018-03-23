@@ -27,6 +27,7 @@ TableModel::TableModel(QObject *parent)
 
 TableModel::~TableModel()
 {
+    qDeleteAll(m_dataList->begin(), m_dataList->end());
 }
 
 GlobalStruct * TableModel::find(const QString &gid)

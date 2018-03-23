@@ -21,6 +21,7 @@
 #include "itemdelegate.h"
 #include <QHeaderView>
 #include <QStandardItem>
+#include <QScrollBar>
 
 TableView::TableView(QWidget *parent)
     : QTableView(parent),
