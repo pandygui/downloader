@@ -24,7 +24,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QEventLoop>
 #include <QDebug>
 
 Aria2RPC::Aria2RPC(QObject *parent)
@@ -88,19 +87,58 @@ void Aria2RPC::sendMessage(const QString &method, const QString &id, QJsonArray 
     QNetworkRequest *request = new QNetworkRequest;
     request->setUrl(QUrl("http://localhost:7200/jsonrpc"));
     request->setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    manager->post(*request, QJsonDocument(object).toJson());
 
-    QNetworkReply *reply = manager->post(*request, QJsonDocument(object).toJson());
+    connect(manager, &QNetworkAccessManager::finished, this,
+            [=] (QNetworkReply *reply) {
+                handleNetworkReply(reply, method);
+                manager->deleteLater();
+                manager->destroyed();
+            });
+}
 
-    QEventLoop loop;
-    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-    loop.exec();
-
+void Aria2RPC::handleNetworkReply(QNetworkReply *reply, const QString &method)
+{
     if (reply->error() == QNetworkReply::NoError) {
         QByteArray buffer = reply->readAll();
-        qDebug() << "success: " << buffer;
+        QJsonDocument document = QJsonDocument::fromJson(buffer);
+        QJsonObject object = document.object();
+
+        if (!object.isEmpty()) {
+            if (method == "aria2.tellStatus") {
+                handleTellStatus(object);
+            } else {
+                Q_EMIT addedTask(object.value("result").toString());
+            }
+        }
     } else {
         qDebug() << "error: " << reply->errorString();
     }
+}
 
-    manager->deleteLater();
+void Aria2RPC::handleTellStatus(const QJsonObject &object)
+{
+    QJsonObject result = object.value("result").toObject();
+    QJsonArray files = result.value("files").toArray();
+
+    for (int i = 0; i < files.size(); ++i) {
+        QJsonObject file = files[i].toObject();
+        qDebug() << file.value("path").toString();
+    }
+
+    // qDebug() << "gid" << result.value("gid").toString();
+    // qDebug() << "speed: " << result.value("downloadSpeed").toString();
+    // qDebug() << "status: " << result.value("status").toString();
+    // qDebug() << "total length: " << result.value("totalLength").toString();
+    // qDebug() << "completed length: " << result.value("completedLength").toString();
+    // qDebug() << result.value("completedLength").toString().toLong() * 100 / result.value("totalLength").toString().toLong();
+    // qDebug() << "\n";
+
+    const QString gid = result.value("gid").toString();
+    const QString status = result.value("status").toString();
+    const QString speed = result.value("downloadSpeed").toString();
+    const QString totalLength = result.value("totalLength").toString();
+    const QString completedLength = result.value("completedLength").toString();
+
+    Q_EMIT updateStatus(gid, status, totalLength, completedLength, speed);
 }

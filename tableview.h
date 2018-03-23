@@ -22,6 +22,7 @@
 
 #include <QTableView>
 #include <QStandardItemModel>
+#include "globalstruct.h"
 
 class TableView : public QTableView
 {
@@ -31,8 +32,9 @@ public:
     TableView(QWidget *parent = nullptr);
     ~TableView();
 
-private:
-    void appendItem(const QString &name);
+public:
+    void appendItem(GlobalStruct *data);
+    void clearItems();
 
 private:
     QStandardItemModel *m_itemModel;

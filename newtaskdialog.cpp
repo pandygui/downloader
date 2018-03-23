@@ -73,6 +73,8 @@ NewTaskDialog::NewTaskDialog(QWidget *parent)
     setContentLayoutContentsMargins(QMargins(20, 5, 20, 10));
     setOnButtonClickedClose(false);
 
+    m_textEdit->setFocus();
+
     connect(this, &DDialog::buttonClicked, this, &NewTaskDialog::handleButtonClicked);
 
 }

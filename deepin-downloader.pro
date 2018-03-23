@@ -16,9 +16,9 @@ HEADERS += mainwindow.h \
 	   slidebar.h \
 	   toolbar.h \
 	   newtaskdialog.h \
-	   taskmanager.h \
 	   tableview.h \
-	   utils.h
+	   utils.h \
+	   globalstruct.h
 
 SOURCES += main.cpp \
 	   mainwindow.cpp \
@@ -26,7 +26,6 @@ SOURCES += main.cpp \
 	   slidebar.cpp \
 	   toolbar.cpp \
 	   newtaskdialog.cpp \
-	   taskmanager.cpp \
 	   tableview.cpp \
 	   utils.cpp
 

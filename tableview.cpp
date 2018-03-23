@@ -30,7 +30,6 @@ TableView::TableView(QWidget *parent)
     QStringList headerTitles;
     headerTitles << tr("File name") << tr("Size") << tr("Speed")
                  << tr("Remaining time") << tr("Status");
-
     m_itemModel->setHorizontalHeaderLabels(headerTitles);
 
     setShowGrid(false);
@@ -42,10 +41,10 @@ TableView::TableView(QWidget *parent)
     setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     QHeaderView *headerView = horizontalHeader();
-    headerView->setSectionResizeMode(1, QHeaderView::Stretch);
-    headerView->setSectionResizeMode(2, QHeaderView::Stretch);
-    headerView->setSectionResizeMode(3, QHeaderView::Fixed);
-    headerView->setSectionResizeMode(4, QHeaderView::Stretch);
+    headerView->setSectionResizeMode(0, QHeaderView::Stretch);
+    headerView->setSectionResizeMode(1, QHeaderView::Fixed);
+    headerView->setSectionResizeMode(2, QHeaderView::Fixed);
+    headerView->setSectionResizeMode(3, QHeaderView::Stretch);
     headerView->setHighlightSections(false);
 
     setColumnWidth(0, 300);
@@ -53,22 +52,35 @@ TableView::TableView(QWidget *parent)
     setColumnWidth(2, 100);
     setColumnWidth(3, 160);
     setColumnWidth(4, 100);
-
-    for (int i = 0; i < 100; ++i) {
-        appendItem("hhhhh" + QString::number(i));
-    }
 }
 
 TableView::~TableView()
 {
 }
 
-void TableView::appendItem(const QString &name)
+void TableView::appendItem(GlobalStruct *data)
 {
     int row = m_itemModel->rowCount();
     m_itemModel->insertRow(row);
-
-    QStandardItem *listItem = new QStandardItem(name);
-    m_itemModel->setItem(row, 0, listItem);
     setRowHeight(row, 45);
+
+    QStandardItem *listItem = new QStandardItem(data->gid);
+    m_itemModel->setItem(row, 0, listItem);
+
+    QStandardItem *sizeItem = new QStandardItem(data->totalLength);
+    m_itemModel->setItem(row, 1, sizeItem);
+
+    QStandardItem *speedItem = new QStandardItem(data->speed);
+    m_itemModel->setItem(row, 2, speedItem);
+
+    QStandardItem *percentItem = new QStandardItem(QString("%1 %").arg(data->percent));
+    m_itemModel->setItem(row, 3, percentItem);
+
+    QStandardItem *statusItem = new QStandardItem(data->status);
+    m_itemModel->setItem(row, 4, statusItem);
+}
+
+void TableView::clearItems()
+{
+    m_itemModel->removeRows(0, m_itemModel->rowCount());
 }

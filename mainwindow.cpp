@@ -33,8 +33,9 @@ MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent),
       m_toolBar(new ToolBar),
       m_slideBar(new SlideBar),
-      m_taskManager(new TaskManager),
-      m_aria2RPC(new Aria2RPC)
+      m_tableView(new TableView),
+      m_aria2RPC(new Aria2RPC),
+      m_refreshTimer(new QTimer(this))
 {
     titlebar()->setCustomWidget(m_toolBar, Qt::AlignVCenter, false);
     titlebar()->setSeparatorVisible(true);
@@ -42,16 +43,21 @@ MainWindow::MainWindow(QWidget *parent)
 
     QWidget *centralWidget = new QWidget;
     QHBoxLayout *centralLayout = new QHBoxLayout(centralWidget);
+    QVBoxLayout *taskLayout = new QVBoxLayout;
+
+    taskLayout->addWidget(m_tableView);
+
+    m_refreshTimer->setInterval(1000);
 
     centralLayout->addWidget(m_slideBar);
-    centralLayout->addWidget(m_taskManager);
+    centralLayout->addLayout(taskLayout);
     centralLayout->setSpacing(0);
     centralLayout->setMargin(0);
 
     setCentralWidget(centralWidget);
     setWindowIcon(QIcon(":/images/deepin-downloader.svg"));
 
-    initAria2c();
+    startAria2c();
     setMinimumSize(900, 588);
     resize(900, 588);
 
@@ -59,13 +65,16 @@ MainWindow::MainWindow(QWidget *parent)
     setFocusPolicy(Qt::ClickFocus);
 
     connect(m_toolBar, &ToolBar::newTaskBtnClicked, this, &MainWindow::onNewTaskBtnClicked);
+    connect(m_aria2RPC, &Aria2RPC::addedTask, this, &MainWindow::handleAddedTask);
+    connect(m_aria2RPC, &Aria2RPC::updateStatus, this, &MainWindow::handleUpdateStatus);
+    connect(m_refreshTimer, &QTimer::timeout, this, &MainWindow::refreshEvent);
 }
 
 MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::initAria2c()
+void MainWindow::startAria2c()
 {
     QProcess *process = new QProcess(this);
 
@@ -84,11 +93,44 @@ void MainWindow::initAria2c()
 void MainWindow::onNewTaskBtnClicked()
 {
     NewTaskDialog *dlg = new NewTaskDialog;
-    connect(dlg, &NewTaskDialog::startDownload, this, &MainWindow::handleAddNewTask);
+    connect(dlg, &NewTaskDialog::startDownload, this, &MainWindow::handleDialogAddTask);
     dlg->exec();
 }
 
-void MainWindow::handleAddNewTask(const QString &url)
+void MainWindow::handleDialogAddTask(const QString &url)
 {
-    m_aria2RPC->addUri(url, "test");
+    m_aria2RPC->addUri(url, "");
+    m_refreshTimer->start();
+}
+
+void MainWindow::handleAddedTask(const QString &gid)
+{
+    GlobalStruct *data = new GlobalStruct;
+    data->gid = gid;
+
+    m_map.insert(gid, data);
+    m_dataList << data;
+
+    m_tableView->appendItem(data);
+}
+
+void MainWindow::handleUpdateStatus(const QString &gid, const QString &status, const QString &totalLength, const QString &completedLenth, const QString &speed)
+{
+    if (m_map.contains(gid)) {
+        GlobalStruct *data = m_map[gid];
+        data->gid = gid;
+        data->status = status;
+        data->totalLength = totalLength;
+        data->completedLenth = completedLenth;
+        data->percent = completedLenth.toLong() * 100 / totalLength.toLong();
+        data->speed = speed;
+
+        m_tableView->clearItems();
+        m_tableView->appendItem(data);
+    }
+}
+
+void MainWindow::refreshEvent()
+{
+    m_aria2RPC->tellStatus(m_dataList.first()->gid);
 }

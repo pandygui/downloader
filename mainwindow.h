@@ -22,10 +22,12 @@
 
 #include <DMainWindow>
 #include <QHBoxLayout>
+#include <QTimer>
 #include "toolbar.h"
 #include "slidebar.h"
-#include "taskmanager.h"
+#include "tableview.h"
 #include "aria2rpc.h"
+#include "globalstruct.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -38,17 +40,24 @@ public:
     ~MainWindow();
 
 private:
-    void initAria2c();
-    
+    void startAria2c();
+
 private slots:
     void onNewTaskBtnClicked();
-    void handleAddNewTask(const QString &url);
+    void handleDialogAddTask(const QString &url);
+    void handleAddedTask(const QString &gid);
+    void handleUpdateStatus(const QString &gid, const QString &status, const QString &totalLength, const QString &completedLenth, const QString &speed);
+    void refreshEvent();
 
 private:
     ToolBar *m_toolBar;
     SlideBar *m_slideBar;
-    TaskManager *m_taskManager;
+    TableView *m_tableView;
     Aria2RPC *m_aria2RPC;
+    QTimer *m_refreshTimer;
+
+    QList<GlobalStruct *> m_dataList;
+    QMap<QString, GlobalStruct *> m_map;
 };
 
 #endif

@@ -22,12 +22,17 @@
 
 #include <QObject>
 
+class QNetworkReply;
 class Aria2RPC : public QObject
 {
     Q_OBJECT
 
 public:
     Aria2RPC(QObject *parent = nullptr);
+
+signals:
+    void addedTask(const QString &gid);
+    void updateStatus(const QString &gid, const QString &status, const QString &totalLength, const QString &completedLenth, const QString &speed);
 
 public slots:
     void addUri(const QString &uri, const QString &id);
@@ -37,6 +42,8 @@ public slots:
 
 private:
     void sendMessage(const QString &method, const QString &id, QJsonArray params);
+    void handleNetworkReply(QNetworkReply *reply, const QString &method);
+    void handleTellStatus(const QJsonObject &object);
 };
 
 #endif // ARIA2RPC_H

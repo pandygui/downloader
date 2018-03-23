@@ -17,20 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "taskmanager.h"
-#include <QVBoxLayout>
-#include <QLabel>
+#ifndef GLOBALSTRUCT_H
+#define GLOBALSTRUCT_H
 
-TaskManager::TaskManager(QWidget *parent)
-    : QWidget(parent),
-      m_tableView(new TableView)
-{
-    QVBoxLayout *layout = new QVBoxLayout(this);
+#include <QObject>
 
-    layout->addWidget(m_tableView);
-    layout->setMargin(0);
-}
+struct GlobalStruct {
+    QString url;
+    QString speed;
+    QString gid;
+    QString status;
+    QString savePath;
+    QString completedLenth;
+    QString totalLength;
+    int percent;
+};
 
-TaskManager::~TaskManager()
-{
-}
+#endif
