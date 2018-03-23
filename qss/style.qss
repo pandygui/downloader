@@ -1,14 +1,3 @@
-QTableView {
-    alternate-background-color: #FAFAFA;
-    margin: 0px;
-}
-
-QTableView::item:selected {
-    background: #D5EDFE;
-    color: #000000;
-    border: none;
-}
-
 QHeaderView::section {
     background-color: rgb(255,255,255);
     border: none;
