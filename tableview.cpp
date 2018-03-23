@@ -31,13 +31,13 @@ TableView::TableView(QWidget *parent)
     setItemDelegate(new ItemDelegate);
 
     QHeaderView *headerView = horizontalHeader();
-    verticalHeader()->setDefaultSectionSize(50);
+    verticalHeader()->setDefaultSectionSize(45);
+    headerView->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     headerView->setSectionResizeMode(0, QHeaderView::Stretch);
     headerView->setSectionResizeMode(1, QHeaderView::Fixed);
     headerView->setSectionResizeMode(2, QHeaderView::Fixed);
     headerView->setSectionResizeMode(3, QHeaderView::Stretch);
     headerView->setHighlightSections(false);
-    headerView->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
     setColumnWidth(0, 300);
     setColumnWidth(1, 100);

@@ -43,3 +43,37 @@ QString Utils::getQssContent(const QString &filePath)
 
     return qss;
 }
+
+QString Utils::formatSpeed(unsigned long long size)
+{
+    QString result = "";
+
+    if (size < 1024) {
+        result = QString::number(size) + " B/s";
+    } else if (size / 1024 < 1024) {
+        result = QString::number(size * 1.0 / 1024, 'r', 1) + " KB/s";
+    } else if (size / 1024 / 1024 < 1024) {
+        result = QString::number(size * 1.0 / 1024 / 1024, 'r', 1) + " MB/s";
+    } else if (size / 1024 / 1024 / 1024 < 1024) {
+        result = QString::number(size * 1.0 / 1024 / 1024 / 1024, 'r', 1) + " GB/s";
+    }
+
+    return result;
+}
+
+QString Utils::formatUnit(unsigned long long size)
+{
+    QString result = "";
+
+    if (size < 1024) {
+        result = QString::number(size) + "B";
+    } else if (size / 1024 < 1024) {
+        result = QString::number(size * 1.0 / 1024, 'r', 1) + "KB";
+    } else if (size / 1024 / 1024 < 1024) {
+        result = QString::number(size * 1.0 / 1024 / 1024, 'r', 1) + "MB";
+    } else if (size / 1024 / 1024 / 1024 < 1024) {
+        result = QString::number(size * 1.0 / 1024 / 1024 / 1024, 'r', 1) + "GB";
+    }
+
+    return result;    
+}

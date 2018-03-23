@@ -37,6 +37,8 @@ public:
     ~TableModel();
 
     void append(GlobalStruct *data);
+    void removeItem(GlobalStruct *data);
+    void removeItems();
     GlobalStruct *find(const QString &gid);
     QList<GlobalStruct *> *dataList() { return m_dataList; };
 

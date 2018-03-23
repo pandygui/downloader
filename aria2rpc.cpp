@@ -18,6 +18,8 @@
  */
 
 #include "aria2rpc.h"
+#include "utils.h"
+
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -135,10 +137,19 @@ void Aria2RPC::handleTellStatus(const QJsonObject &object)
 
     const QString gid = result.value("gid").toString();
     const QString status = result.value("status").toString();
-    const QString speed = result.value("downloadSpeed").toString();
+    const QString speed = Utils::formatSpeed(result.value("downloadSpeed").toString().toLong());    
     const QString totalLength = result.value("totalLength").toString();
     const QString completedLength = result.value("completedLength").toString();
     const int percent = completedLength.toLong() * 100 / totalLength.toLong();
 
-    Q_EMIT updateStatus(gid, status, totalLength, completedLength, speed, percent);
+    Q_EMIT updateStatus(gid, status, Utils::formatUnit(totalLength.toLong()), Utils::formatUnit(completedLength.toLong()), speed, percent);
 }
+
+
+
+
+
+
+
+
+

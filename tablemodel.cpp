@@ -48,6 +48,22 @@ void TableModel::append(GlobalStruct *data)
     endInsertRows();
 }
 
+void TableModel::removeItem(GlobalStruct *data)
+{
+    if (m_map.contains(data->gid)) {
+        m_map.remove(data->gid);
+        m_dataList->removeOne(data);
+        delete data;
+    }
+}
+
+void TableModel::removeItems()
+{
+    qDeleteAll(m_dataList->begin(), m_dataList->end());
+    m_dataList->clear();
+    m_map.clear();
+}
+
 int TableModel::rowCount(const QModelIndex &parent) const
 {
     return m_dataList->count();
