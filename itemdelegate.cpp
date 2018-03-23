@@ -41,10 +41,12 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
     const QRect rect = option.rect;
 
+    // painting selection item background.
     if (option.state & QStyle::State_Selected) {
         painter->fillRect(rect, QColor("#D5EDFE"));
     }
 
+    // painting each column item.
     switch (index.column()) {
     case TableModel::FileName:
         painter->drawText(QRect(rect).marginsRemoved(QMargins(10, 0, 0, 0)), Qt::AlignVCenter | Qt::AlignLeft, index.data(TableModel::FileName).toString());
@@ -66,5 +68,6 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    // don't work here.
     return QSize(-1, 50);
 }

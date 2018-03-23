@@ -47,7 +47,8 @@ private slots:
     void onNewTaskBtnClicked();
     void handleDialogAddTask(const QString &url);
     void handleAddedTask(const QString &gid);
-    void handleUpdateStatus(const QString &gid, const QString &status, const QString &totalLength, const QString &completedLenth, const QString &speed, const int &percent);
+    void handleUpdateStatus(const QString &gid, const QString &status, const QString &totalLength,
+                            const QString &completedLenth, const QString &speed, const int &percent);
     void refreshEvent();
 
 private:

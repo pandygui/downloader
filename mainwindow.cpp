@@ -111,7 +111,8 @@ void MainWindow::handleAddedTask(const QString &gid)
     m_tableView->model()->append(data);
 }
 
-void MainWindow::handleUpdateStatus(const QString &gid, const QString &status, const QString &totalLength, const QString &completedLenth, const QString &speed, const int &percent)
+void MainWindow::handleUpdateStatus(const QString &gid, const QString &status, const QString &totalLength,
+                                     const QString &completedLenth, const QString &speed, const int &percent)
 {
     GlobalStruct *data = m_tableView->model()->find(gid);
 
