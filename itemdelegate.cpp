@@ -37,12 +37,11 @@ ItemDelegate::~ItemDelegate()
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     painter->setRenderHint(QPainter::Antialiasing);
-    painter->setPen(Qt::black);
+    painter->setPen(QColor("#303030"));
 
     const QRect rect = option.rect;
 
     if (option.state & QStyle::State_Selected) {
-        painter->setPen(Qt::black);
         painter->fillRect(rect, QColor("#D5EDFE"));
     }
 
