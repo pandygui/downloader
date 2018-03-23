@@ -37,6 +37,7 @@ TableView::TableView(QWidget *parent)
     headerView->setSectionResizeMode(2, QHeaderView::Fixed);
     headerView->setSectionResizeMode(3, QHeaderView::Stretch);
     headerView->setHighlightSections(false);
+    headerView->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
     setColumnWidth(0, 300);
     setColumnWidth(1, 100);

@@ -51,16 +51,16 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
         painter->drawText(QRect(rect).marginsRemoved(QMargins(10, 0, 0, 0)), Qt::AlignVCenter | Qt::AlignLeft, index.data(TableModel::FileName).toString());
         break;
     case TableModel::Size:
-        painter->drawText(rect, Qt::AlignVCenter | Qt::AlignLeft, index.data(TableModel::Size).toString());
+        painter->drawText(rect, Qt::AlignCenter, index.data(TableModel::Size).toString());
         break;
     case TableModel::Speed:
-        painter->drawText(rect, Qt::AlignVCenter | Qt::AlignLeft, index.data(TableModel::Speed).toString());
+        painter->drawText(rect, Qt::AlignCenter, index.data(TableModel::Speed).toString());
         break;
     case TableModel::Percent:
-        painter->drawText(rect, Qt::AlignVCenter | Qt::AlignLeft, QString("%1%").arg(index.data(TableModel::Percent).toInt()));
+        painter->drawText(rect, Qt::AlignCenter, QString("%1%").arg(index.data(TableModel::Percent).toInt()));
         break;
     case TableModel::Status:
-        painter->drawText(QRect(rect).marginsRemoved(QMargins(0, 0, 10, 0)), Qt::AlignVCenter | Qt::AlignLeft, index.data(TableModel::Status).toString());
+        painter->drawText(QRect(rect).marginsRemoved(QMargins(0, 0, 10, 0)), Qt::AlignCenter, index.data(TableModel::Status).toString());
         break;
     }
 }

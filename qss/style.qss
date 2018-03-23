@@ -10,4 +10,5 @@ QHeaderView::section {
 QHeaderView::section:horizontal {
     border-bottom: 1px solid #F2F2F2;
     border-right: 1px solid #F2F2F2;
+    padding-left: 10px;
 }
