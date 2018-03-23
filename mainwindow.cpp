@@ -68,6 +68,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_aria2RPC, &Aria2RPC::addedTask, this, &MainWindow::handleAddedTask);
     connect(m_aria2RPC, &Aria2RPC::updateStatus, this, &MainWindow::handleUpdateStatus);
     connect(m_refreshTimer, &QTimer::timeout, this, &MainWindow::refreshEvent);
+
+    for (int i = 0; i < 100; ++i) {
+        GlobalStruct *data = new GlobalStruct;
+        data->gid = "asdasdasdsa";
+
+        m_tableView->model()->append(data);
+    }
 }
 
 MainWindow::~MainWindow()

@@ -30,6 +30,7 @@ TableView::TableView(QWidget *parent)
     setItemDelegate(new ItemDelegate);
 
     QHeaderView *headerView = horizontalHeader();
+    verticalHeader()->setDefaultSectionSize(50);
     headerView->setSectionResizeMode(0, QHeaderView::Stretch);
     headerView->setSectionResizeMode(1, QHeaderView::Fixed);
     headerView->setSectionResizeMode(2, QHeaderView::Fixed);
