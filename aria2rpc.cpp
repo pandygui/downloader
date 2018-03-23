@@ -123,7 +123,6 @@ void Aria2RPC::handleTellStatus(const QJsonObject &object)
 
     for (int i = 0; i < files.size(); ++i) {
         QJsonObject file = files[i].toObject();
-        qDebug() << file.value("path").toString();
     }
 
     // qDebug() << "gid" << result.value("gid").toString();
@@ -139,6 +138,7 @@ void Aria2RPC::handleTellStatus(const QJsonObject &object)
     const QString speed = result.value("downloadSpeed").toString();
     const QString totalLength = result.value("totalLength").toString();
     const QString completedLength = result.value("completedLength").toString();
+    const int percent = completedLength.toLong() * 100 / totalLength.toLong();
 
-    Q_EMIT updateStatus(gid, status, totalLength, completedLength, speed);
+    Q_EMIT updateStatus(gid, status, totalLength, completedLength, speed, percent);
 }

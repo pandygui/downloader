@@ -17,26 +17,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TABLEVIEW_H
-#define TABLEVIEW_H
+#ifndef ITEMDELEGATE_H
+#define ITEMDELEGATE_H
 
-#include <QTableView>
-#include <QStandardItemModel>
-#include "tablemodel.h"
-#include "globalstruct.h"
+#include <QStyledItemDelegate>
 
-class TableView : public QTableView
+class ItemDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
-public:
-    TableView(QWidget *parent = nullptr);
-    ~TableView();
+public:    
+    ItemDelegate(QObject *parent = nullptr);
+    ~ItemDelegate();
 
-    TableModel *model() { return m_model; };
-
-private:
-    TableModel *m_model;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 
 #endif

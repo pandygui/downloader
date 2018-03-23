@@ -108,29 +108,30 @@ void MainWindow::handleAddedTask(const QString &gid)
     GlobalStruct *data = new GlobalStruct;
     data->gid = gid;
 
-    m_map.insert(gid, data);
-    m_dataList << data;
-
-    m_tableView->appendItem(data);
+    m_tableView->model()->append(data);
 }
 
-void MainWindow::handleUpdateStatus(const QString &gid, const QString &status, const QString &totalLength, const QString &completedLenth, const QString &speed)
+void MainWindow::handleUpdateStatus(const QString &gid, const QString &status, const QString &totalLength, const QString &completedLenth, const QString &speed, const int &percent)
 {
-    if (m_map.contains(gid)) {
-        GlobalStruct *data = m_map[gid];
-        data->gid = gid;
-        data->status = status;
-        data->totalLength = totalLength;
-        data->completedLenth = completedLenth;
-        data->percent = completedLenth.toLong() * 100 / totalLength.toLong();
-        data->speed = speed;
+    GlobalStruct *data = m_tableView->model()->find(gid);
 
-        m_tableView->clearItems();
-        m_tableView->appendItem(data);
-    }
+    if (!data) return;
+
+    data->gid = gid;
+    data->status = status;
+    data->totalLength = totalLength;
+    data->completedLenth = completedLenth;
+    data->percent = percent;
+    data->speed = speed;
+
+    m_tableView->update();
 }
 
 void MainWindow::refreshEvent()
 {
-    m_aria2RPC->tellStatus(m_dataList.first()->gid);
+    auto *list = m_tableView->model()->dataList();
+
+    for (int i = 0; i < list->size(); ++i) {
+        m_aria2RPC->tellStatus(list->at(i)->gid);
+    }
 }

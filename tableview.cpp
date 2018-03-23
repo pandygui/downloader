@@ -18,27 +18,16 @@
  */
 
 #include "tableview.h"
+#include "itemdelegate.h"
 #include <QHeaderView>
 #include <QStandardItem>
 
 TableView::TableView(QWidget *parent)
     : QTableView(parent),
-      m_itemModel(new QStandardItemModel)
+      m_model(new TableModel)
 {
-    setModel(m_itemModel);
-
-    QStringList headerTitles;
-    headerTitles << tr("File name") << tr("Size") << tr("Speed")
-                 << tr("Remaining time") << tr("Status");
-    m_itemModel->setHorizontalHeaderLabels(headerTitles);
-
-    setShowGrid(false);
-    setAlternatingRowColors(true);
-    setEditTriggers(QAbstractItemView::NoEditTriggers);
-    setSelectionMode(QAbstractItemView::SingleSelection);
-    setSelectionBehavior(QAbstractItemView::SelectRows);
-    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-    setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    setModel(m_model);
+    setItemDelegate(new ItemDelegate);
 
     QHeaderView *headerView = horizontalHeader();
     headerView->setSectionResizeMode(0, QHeaderView::Stretch);
@@ -52,35 +41,16 @@ TableView::TableView(QWidget *parent)
     setColumnWidth(2, 100);
     setColumnWidth(3, 160);
     setColumnWidth(4, 100);
+
+    setShowGrid(false);
+    setAlternatingRowColors(true);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
+    setSelectionMode(QAbstractItemView::SingleSelection);
+    setSelectionBehavior(QAbstractItemView::SelectRows);
+    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 }
 
 TableView::~TableView()
 {
-}
-
-void TableView::appendItem(GlobalStruct *data)
-{
-    int row = m_itemModel->rowCount();
-    m_itemModel->insertRow(row);
-    setRowHeight(row, 45);
-
-    QStandardItem *listItem = new QStandardItem(data->gid);
-    m_itemModel->setItem(row, 0, listItem);
-
-    QStandardItem *sizeItem = new QStandardItem(data->totalLength);
-    m_itemModel->setItem(row, 1, sizeItem);
-
-    QStandardItem *speedItem = new QStandardItem(data->speed);
-    m_itemModel->setItem(row, 2, speedItem);
-
-    QStandardItem *percentItem = new QStandardItem(QString("%1 %").arg(data->percent));
-    m_itemModel->setItem(row, 3, percentItem);
-
-    QStandardItem *statusItem = new QStandardItem(data->status);
-    m_itemModel->setItem(row, 4, statusItem);
-}
-
-void TableView::clearItems()
-{
-    m_itemModel->removeRows(0, m_itemModel->rowCount());
 }

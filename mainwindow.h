@@ -28,6 +28,7 @@
 #include "tableview.h"
 #include "aria2rpc.h"
 #include "globalstruct.h"
+#include "tablemodel.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -46,7 +47,7 @@ private slots:
     void onNewTaskBtnClicked();
     void handleDialogAddTask(const QString &url);
     void handleAddedTask(const QString &gid);
-    void handleUpdateStatus(const QString &gid, const QString &status, const QString &totalLength, const QString &completedLenth, const QString &speed);
+    void handleUpdateStatus(const QString &gid, const QString &status, const QString &totalLength, const QString &completedLenth, const QString &speed, const int &percent);
     void refreshEvent();
 
 private:
@@ -55,9 +56,6 @@ private:
     TableView *m_tableView;
     Aria2RPC *m_aria2RPC;
     QTimer *m_refreshTimer;
-
-    QList<GlobalStruct *> m_dataList;
-    QMap<QString, GlobalStruct *> m_map;
 };
 
 #endif

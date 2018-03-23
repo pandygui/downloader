@@ -17,26 +17,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TABLEVIEW_H
-#define TABLEVIEW_H
+#ifndef TABLEMODEL_H
+#define TABLEMODEL_H
 
-#include <QTableView>
-#include <QStandardItemModel>
-#include "tablemodel.h"
+#include <QAbstractTableModel>
 #include "globalstruct.h"
 
-class TableView : public QTableView
+class TableModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
-    TableView(QWidget *parent = nullptr);
-    ~TableView();
 
-    TableModel *model() { return m_model; };
+    enum Column {
+        FileName = 0, Size, Speed, Percent, Status
+    };
+
+    TableModel(QObject *parent = nullptr);
+    ~TableModel();
+
+    void append(GlobalStruct *data);
+    GlobalStruct *find(const QString &gid);
+    QList<GlobalStruct *> *dataList() { return m_dataList; };
+
+public:
+    int rowCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
 private:
-    TableModel *m_model;
+    QList<GlobalStruct *> *m_dataList;
+    QMap<QString, GlobalStruct *> m_map;
 };
 
 #endif
