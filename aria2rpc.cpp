@@ -135,21 +135,19 @@ void Aria2RPC::handleTellStatus(const QJsonObject &object)
     // qDebug() << result.value("completedLength").toString().toLong() * 100 / result.value("totalLength").toString().toLong();
     // qDebug() << "\n";
 
+    const long speedSize = result.value("downloadSpeed").toString().toLong();
+
     const QString gid = result.value("gid").toString();
     const QString status = result.value("status").toString();
-    const QString speed = Utils::formatSpeed(result.value("downloadSpeed").toString().toLong());    
     const QString totalLength = result.value("totalLength").toString();
     const QString completedLength = result.value("completedLength").toString();
     const int percent = completedLength.toLong() * 100 / totalLength.toLong();
 
+    QString speed = "";
+
+    if (speedSize != 0) {
+        speed = Utils::formatSpeed(speedSize);
+    }
+
     Q_EMIT updateStatus(gid, status, Utils::formatUnit(totalLength.toLong()), Utils::formatUnit(completedLength.toLong()), speed, percent);
 }
-
-
-
-
-
-
-
-
-
