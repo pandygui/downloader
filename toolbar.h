@@ -34,6 +34,10 @@ public:
     ToolBar(QWidget *parent = nullptr);
     ~ToolBar();
 
+    void setStartButtonEnabled(bool enabled);
+    void setPauseButtonEnabled(bool enabled);
+    void setDeleteButtonEnabled(bool enabled);
+
 signals:
     void newTaskBtnClicked();
 

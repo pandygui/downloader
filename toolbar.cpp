@@ -54,8 +54,11 @@ ToolBar::ToolBar(QWidget *parent)
     m_searchBtn = new DImageButton(":/images/search_normal.svg",
                                    ":/images/search_hover.svg",
                                    ":/images/search_press.svg");
-
     m_searchEdit = new DSearchEdit;
+
+    m_taskStartBtn->setDisabledPic(":/images/task_start_insensitive.svg");
+    m_taskPauseBtn->setDisabledPic(":/images/task_pause_insensitive.svg");
+    m_taskDeleteBtn->setDisabledPic(":/images/task_delete_insensitive.svg");
 
     m_taskAddBtn->setFixedSize(24, 24);
     m_taskStartBtn->setFixedSize(24, 24);
@@ -89,6 +92,21 @@ ToolBar::ToolBar(QWidget *parent)
 
 ToolBar::~ToolBar()
 {
+}
+
+void ToolBar::setStartButtonEnabled(bool enabled)
+{
+    m_taskStartBtn->setEnabled(enabled);
+}
+
+void ToolBar::setPauseButtonEnabled(bool enabled)
+{
+    m_taskPauseBtn->setEnabled(enabled);
+}
+
+void ToolBar::setDeleteButtonEnabled(bool enabled)
+{
+    m_taskDeleteBtn->setEnabled(enabled);
 }
 
 void ToolBar::showToolsButton()
