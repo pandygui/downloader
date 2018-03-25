@@ -46,9 +46,6 @@ TableView::TableView(QWidget *parent)
     setColumnWidth(3, 140);
     setColumnWidth(4, 100);
 
-    resizeRowsToContents();
-    setWordWrap(true);
-    setTextElideMode(Qt::ElideRight);
     setAlternatingRowColors(true);
     setSortingEnabled(true);
     setShowGrid(false);
