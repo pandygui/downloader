@@ -46,14 +46,14 @@ TableView::TableView(QWidget *parent)
     setColumnWidth(3, 140);
     setColumnWidth(4, 100);
 
-    setAlternatingRowColors(true);
-    setSortingEnabled(true);
-    setShowGrid(false);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
-    setSelectionMode(QAbstractItemView::SingleSelection);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
     setSelectionBehavior(QAbstractItemView::SelectRows);
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    setAlternatingRowColors(true);
+    setSortingEnabled(true);
+    setShowGrid(false);
 }
 
 TableView::~TableView()
