@@ -29,7 +29,7 @@
 #include "slidebar.h"
 #include "tableview.h"
 #include "aria2rpc.h"
-#include "globalstruct.h"
+#include "global.h"
 #include "tablemodel.h"
 #include "trayicon.h"
 

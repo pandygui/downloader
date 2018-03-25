@@ -42,7 +42,7 @@ TableView::TableView(QWidget *parent)
 
     setColumnWidth(0, 300);
     setColumnWidth(1, 100);
-    setColumnWidth(2, 100);
+    setColumnWidth(2, 120);
     setColumnWidth(3, 140);
     setColumnWidth(4, 100);
 

@@ -49,10 +49,11 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
     // painting selection item background.
     if (option.state & QStyle::State_Selected) {
-        painter->fillRect(rect, QColor("#D5EDFE"));
+        painter->setPen(Qt::white);
+        painter->fillRect(rect, QColor("#2CA7F8"));
     }
 
-    const QRect textRect = rect.marginsRemoved(QMargins(10, 0, 10, 0));
+    const QRect textRect = rect.marginsRemoved(QMargins(10, 0, 0, 0));
 
     // painting each column item.
     if (column == TableModel::FileName) {
@@ -65,7 +66,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     } else if (column == TableModel::Time) {
         painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, text);
     } else if (column == TableModel::Status) {
-        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, text);
+        painter->drawText(rect.marginsRemoved(QMargins(10, 0, 10, 0)), Qt::AlignVCenter | Qt::AlignLeft, text);
     }
 }
 

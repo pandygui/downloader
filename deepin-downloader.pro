@@ -22,7 +22,7 @@ HEADERS += mainwindow.h \
 	   itemdelegate.h \
 	   utils.h \
 	   trayicon.h \
-	   globalstruct.h
+	   globaldata.h
 
 SOURCES += main.cpp \
 	   mainwindow.cpp \

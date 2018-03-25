@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GLOBALSTRUCT_H
-#define GLOBALSTRUCT_H
+#ifndef GLOBAL_H
+#define GLOBAL_H
 
 #include <QObject>
 

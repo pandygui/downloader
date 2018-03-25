@@ -21,7 +21,7 @@
 #define TABLEMODEL_H
 
 #include <QAbstractTableModel>
-#include "globalstruct.h"
+#include "global.h"
 
 class TableModel : public QAbstractTableModel
 {

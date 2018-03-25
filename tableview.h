@@ -23,7 +23,7 @@
 #include <QTableView>
 #include <QStandardItemModel>
 #include "tablemodel.h"
-#include "globalstruct.h"
+#include "global.h"
 
 class TableView : public QTableView
 {
