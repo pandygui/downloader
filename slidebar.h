@@ -20,10 +20,14 @@
 #ifndef SLIDEBAR_H
 #define SLIDEBAR_H
 
-#include <QWidget>
+#include <QFrame>
 #include <QVBoxLayout>
+#include <QButtonGroup>
+#include <QMap>
 
-class SlideBar : public QWidget
+#include "slidebutton.h"
+
+class SlideBar : public QFrame
 {
     Q_OBJECT
 
@@ -31,8 +35,15 @@ public:
     SlideBar(QWidget *parent = nullptr);
     ~SlideBar();
     
+    void initButton();
+
+signals:
+    void buttonClicked(const int index);
+
 private:
     QVBoxLayout *m_layout;
+    QButtonGroup *m_buttonGroup;
+    QMap<QString, QString> m_buttonList;
 };
 
 #endif

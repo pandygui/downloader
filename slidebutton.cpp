@@ -18,13 +18,47 @@
  */
 
 #include "slidebutton.h"
+#include "dsvgrenderer.h"
 
-SlideButton::SlideButton(QWidget *parent) 
+DWIDGET_USE_NAMESPACE
+
+
+SlideButton::SlideButton(QWidget *parent)
     : QPushButton(parent)
 {
-    
+    const qreal ratio = devicePixelRatioF();
+    setIconSize(QSize(15, 15) * ratio);
 }
 
 SlideButton::~SlideButton()
 {
+}
+
+void SlideButton::setNormalPic(const QString &fileName)
+{
+    const qreal ratio = devicePixelRatioF();
+
+    m_normalPic = DSvgRenderer::render(fileName, QSize(15, 15) * ratio);
+    m_normalPic.setDevicePixelRatio(ratio);
+    update();
+}
+
+void SlideButton::setActivePic(const QString &fileName)
+{
+    const qreal ratio = devicePixelRatioF();
+
+    m_activePic = DSvgRenderer::render(fileName, QSize(15, 15) * ratio);
+    m_activePic.setDevicePixelRatio(ratio);
+    update();
+}
+
+void SlideButton::paintEvent(QPaintEvent *e)
+{
+     if (isChecked()) {
+         setIcon(m_activePic);
+     } else {
+         setIcon(m_normalPic);
+     }
+
+    QPushButton::paintEvent(e);
 }

@@ -25,10 +25,20 @@
 class SlideButton : public QPushButton
 {
     Q_OBJECT
-    
+
 public:
-    SlideButton(QPushButton *parent = nullptr);
-    ~SlideButton(); 
-};	
+    SlideButton(QWidget *parent = nullptr);
+    ~SlideButton();
+
+    void setNormalPic(const QString &fileName);
+    void setActivePic(const QString &fileName);
+
+protected:
+    void paintEvent(QPaintEvent *);
+
+private:
+    QPixmap m_normalPic;
+    QPixmap m_activePic;
+};
 
 #endif

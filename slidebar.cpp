@@ -19,13 +19,54 @@
 
 #include "slidebar.h"
 
+#define BUTTON_HEIGHT 35
+
 SlideBar::SlideBar(QWidget *parent)
-    : QWidget(parent),
-      m_layout(new QVBoxLayout(this))
+    : QFrame(parent),
+      m_layout(new QVBoxLayout(this)),
+      m_buttonGroup(new QButtonGroup)
 {
+    m_layout->setMargin(0);
+    m_layout->setSpacing(0);
+
+    m_buttonList.insert("nav_alltask", tr("All tasks"));
+    m_buttonList.insert("nav_downloading", tr("Downloading"));
+    m_buttonList.insert("nav_paused", tr("Paused"));
+    m_buttonList.insert("nav_done", tr("Finished"));
+    m_buttonList.insert("nav_trash", tr("Trash"));
+
+    setObjectName("SlideBar");
     setFixedWidth(200);
+    initButton();
 }
 
 SlideBar::~SlideBar()
 {
+}
+
+void SlideBar::initButton()
+{
+    int count = 0;
+
+    for (const auto &key : m_buttonList.keys()) {
+        SlideButton *btn = new SlideButton;
+        btn->setText(" " + m_buttonList[key]);
+        btn->setFixedHeight(BUTTON_HEIGHT);
+        btn->setCheckable(true);
+        btn->setNormalPic(QString(":/images/%1_normal.svg").arg(key));
+        btn->setActivePic(QString(":/images/%1_active.svg").arg(key));
+
+        m_layout->addWidget(btn);
+        m_buttonGroup->addButton(btn);
+
+        if (count == 0) {
+            btn->setChecked(true);
+        }
+
+        connect(btn, &SlideButton::clicked, this, [=] { Q_EMIT buttonClicked(count); });
+
+        ++count;
+    }
+
+    m_layout->addStretch();
 }
