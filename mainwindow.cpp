@@ -75,7 +75,7 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowIcon(QIcon(":/images/deepin-downloader.svg"));
 
     startAria2c();
-    setMinimumSize(920, 590);
+    setMinimumSize(940, 590);
     resize(920, 590);
 
     setStyleSheet(Utils::getQssContent(":/qss/style.qss"));
@@ -90,11 +90,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_trayIcon, &TrayIcon::exitActionTriggered, qApp, &QApplication::quit);
 
     // test for tableview.
-    for (int i = 0; i < 100; ++i) {
-        GlobalStruct *data = new GlobalStruct;
-        data->gid = QString("%1 - hello world world world world worlds").arg(i);
-        m_tableView->model()->append(data);
-    }
+    // for (int i = 0; i < 100; ++i) {
+    //     GlobalStruct *data = new GlobalStruct;
+    //     data->gid = QString("%1 - hello world world world world worlds").arg(i);
+    //     m_tableView->model()->append(data);
+    // }
 }
 
 MainWindow::~MainWindow()
