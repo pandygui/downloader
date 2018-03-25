@@ -28,7 +28,7 @@ struct GlobalStruct {
     QString gid;
     QString status;
     QString savePath;
-    QString completedLenth;
+    QString completedLength;
     QString totalLength;
     QString percent;
 };

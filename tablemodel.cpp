@@ -71,24 +71,26 @@ int TableModel::rowCount(const QModelIndex &parent) const
 
 int TableModel::columnCount(const QModelIndex &parent) const
 {
-    return Column::Status + 1;
+    return 5;
 }
 
 QVariant TableModel::data(const QModelIndex &index, int role) const
 {
     const int row = index.row();
+    const GlobalStruct *data = m_dataList->at(row);
+    const QChar sizeSepChar = (!data->totalLength.isEmpty()) ? '/' : ' ';
 
     switch (role) {
     case TableModel::FileName:
-        return QVariant(m_dataList->at(row)->gid);
+        return QVariant(data->gid);
     case TableModel::Size:
-            return QVariant(m_dataList->at(row)->totalLength);
+        return QString("%1%2%3  %4").arg(data->completedLength).arg(sizeSepChar).arg(data->totalLength).arg(data->percent);
     case TableModel::Speed:
-        return QVariant(m_dataList->at(row)->speed);
+        return QVariant(data->speed);
     case TableModel::Time:
-        return QVariant(m_dataList->at(row)->percent);
+        return QVariant("");
     case TableModel::Status:
-        return QVariant(m_dataList->at(row)->status);
+        return QVariant(data->status);
     }
 
     return QVariant();

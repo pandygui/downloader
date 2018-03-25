@@ -36,32 +36,36 @@ ItemDelegate::~ItemDelegate()
 
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    const QRect rect(option.rect);
+    const int column(index.column());
+    const QString text(index.data(column).toString());
+
+    QFont font;
+    font.setPointSize(11);
+    painter->setFont(font);
+
     painter->setRenderHint(QPainter::Antialiasing);
     painter->setPen(QColor("#303030"));
-
-    const QRect rect = option.rect;
-    const int column = index.column();
-    const QString text = index.data(column).toString();
 
     // painting selection item background.
     if (option.state & QStyle::State_Selected) {
         painter->fillRect(rect, QColor("#D5EDFE"));
     }
 
+    const QRect textRect = rect.marginsRemoved(QMargins(10, 0, 10, 0));
+
     // painting each column item.
     if (column == TableModel::FileName) {
-        const QRect nameRect = QRect(rect).marginsRemoved(QMargins(10, 0, 0, 0));
-        const QString name = painter->fontMetrics().elidedText(text, Qt::ElideLeft, rect.width() - 10);
-        painter->drawText(nameRect, Qt::AlignVCenter | Qt::AlignLeft, name);
+        const QString name = painter->fontMetrics().elidedText(text, Qt::ElideLeft, textRect.width() - 10);
+        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, name);
     } else if (column == TableModel::Size) {
-        painter->drawText(rect, Qt::AlignVCenter | Qt::AlignLeft, text);
+        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, text);
     } else if (column == TableModel::Speed) {
-        painter->drawText(rect, Qt::AlignVCenter | Qt::AlignLeft, text);
+        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, text);
     } else if (column == TableModel::Time) {
-        painter->drawText(rect, Qt::AlignVCenter | Qt::AlignLeft, text);
+        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, text);
     } else if (column == TableModel::Status) {
-        QRect statusRect = QRect(rect).marginsRemoved(QMargins(0, 0, 10, 0));
-        painter->drawText(statusRect, Qt::AlignVCenter | Qt::AlignLeft, text);
+        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, text);
     }
 }
 

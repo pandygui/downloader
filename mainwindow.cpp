@@ -89,7 +89,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_trayIcon, &TrayIcon::openActionTriggered, this, &MainWindow::activeWindow);
     connect(m_trayIcon, &TrayIcon::exitActionTriggered, qApp, &QApplication::quit);
 
-    // for test.
+    // test for tableview.
     for (int i = 0; i < 100; ++i) {
         GlobalStruct *data = new GlobalStruct;
         data->gid = QString("%1 - hello world world world world worlds").arg(i);
@@ -174,7 +174,7 @@ void MainWindow::handleUpdateStatus(const QString &gid, const QString &status, c
     data->gid = gid;
     data->status = status;
     data->totalLength = totalLength;
-    data->completedLenth = completedLenth;
+    data->completedLength = completedLenth;
     data->percent = percent;
     data->speed = speed;
 
