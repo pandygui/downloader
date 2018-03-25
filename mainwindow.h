@@ -29,6 +29,7 @@
 #include "aria2rpc.h"
 #include "globalstruct.h"
 #include "tablemodel.h"
+#include "trayicon.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -40,10 +41,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+protected:
+    void closeEvent(QCloseEvent *);
+
 private:
     void startAria2c();
 
 private slots:
+    void activeWindow();
     void onNewTaskBtnClicked();
     void handleDialogAddTask(const QString &url);
     void handleAddedTask(const QString &gid);
@@ -56,6 +61,7 @@ private:
     SlideBar *m_slideBar;
     TableView *m_tableView;
     Aria2RPC *m_aria2RPC;
+    TrayIcon *m_trayIcon;
     QTimer *m_refreshTimer;
 };
 

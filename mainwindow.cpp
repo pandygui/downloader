@@ -22,6 +22,8 @@
 #include "newtaskdialog.h"
 #include "utils.h"
 
+#include <QApplication>
+#include <QCloseEvent>
 #include <QPushButton>
 #include <QLineEdit>
 #include <QProcess>
@@ -35,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
       m_slideBar(new SlideBar),
       m_tableView(new TableView),
       m_aria2RPC(new Aria2RPC),
+      m_trayIcon(new TrayIcon(this)),
       m_refreshTimer(new QTimer(this))
 {
     titlebar()->setCustomWidget(m_toolBar, Qt::AlignVCenter, false);
@@ -47,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     taskLayout->addWidget(m_tableView);
 
+    m_trayIcon->show();
     m_refreshTimer->setInterval(1000);
 
     centralLayout->addWidget(m_slideBar);
@@ -68,10 +72,20 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_aria2RPC, &Aria2RPC::addedTask, this, &MainWindow::handleAddedTask);
     connect(m_aria2RPC, &Aria2RPC::updateStatus, this, &MainWindow::handleUpdateStatus);
     connect(m_refreshTimer, &QTimer::timeout, this, &MainWindow::refreshEvent);
+
+    connect(m_trayIcon, &TrayIcon::openActionTriggered, this, &MainWindow::activeWindow);
+    connect(m_trayIcon, &TrayIcon::exitActionTriggered, qApp, &QApplication::quit);
 }
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::closeEvent(QCloseEvent *e)
+{
+    // e->accept();
+    setVisible(false);
+    e->ignore();
 }
 
 void MainWindow::startAria2c()
@@ -88,6 +102,12 @@ void MainWindow::startAria2c()
     args << "--disable-ipv6";
 
     process->start("/usr/bin/aria2c", args);
+}
+
+void MainWindow::activeWindow()
+{
+    setVisible(true);
+    activateWindow();
 }
 
 void MainWindow::onNewTaskBtnClicked()
@@ -112,7 +132,7 @@ void MainWindow::handleAddedTask(const QString &gid)
 }
 
 void MainWindow::handleUpdateStatus(const QString &gid, const QString &status, const QString &totalLength,
-                                     const QString &completedLenth, const QString &speed, const int &percent)
+                                    const QString &completedLenth, const QString &speed, const int &percent)
 {
     GlobalStruct *data = m_tableView->model()->find(gid);
 

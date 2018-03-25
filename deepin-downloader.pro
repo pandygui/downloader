@@ -21,6 +21,7 @@ HEADERS += mainwindow.h \
 	   tablemodel.h \
 	   itemdelegate.h \
 	   utils.h \
+	   trayicon.h \
 	   globalstruct.h
 
 SOURCES += main.cpp \
@@ -33,7 +34,8 @@ SOURCES += main.cpp \
 	   tableview.cpp \
 	   tablemodel.cpp \
 	   itemdelegate.cpp \
-	   utils.cpp
+	   utils.cpp \
+	   trayicon.cpp
 
 RESOURCES += deepin-downloader.qrc
 

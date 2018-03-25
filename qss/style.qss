@@ -1,6 +1,7 @@
 #SlideBar {
-    border: solid #eee;
+    border: solid #ECECEE;
     border-right-width: 1px;
+    background-color: #F9F9FB;
 }
 
 #SlideBar > QPushButton {
@@ -20,7 +21,7 @@
     background-color: #d5edfe;
     border: 1px solid rgba(44, 167, 248, .1);
     border-left: none;
-    border-right: 3px solid #2ca7f8;
+    border-right: 5px;
 }
 
 QTableView {

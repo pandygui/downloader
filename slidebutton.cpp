@@ -19,9 +19,9 @@
 
 #include "slidebutton.h"
 #include "dsvgrenderer.h"
+#include "dhidpihelper.h"
 
 DWIDGET_USE_NAMESPACE
-
 
 SlideButton::SlideButton(QWidget *parent)
     : QPushButton(parent)
