@@ -38,25 +38,34 @@ MainWindow::MainWindow(QWidget *parent)
       m_tableView(new TableView),
       m_aria2RPC(new Aria2RPC),
       m_trayIcon(new TrayIcon(this)),
-      m_refreshTimer(new QTimer(this))
+      m_refreshTimer(new QTimer(this)),
+      m_monitorLabel(new QLabel)
 {
-    titlebar()->setCustomWidget(m_toolBar, Qt::AlignVCenter, false);
-    titlebar()->setSeparatorVisible(true);
-    titlebar()->setFixedHeight(45);
-
     QWidget *centralWidget = new QWidget;
     QHBoxLayout *centralLayout = new QHBoxLayout(centralWidget);
     QVBoxLayout *taskLayout = new QVBoxLayout;
+
+    titlebar()->setCustomWidget(m_toolBar, Qt::AlignVCenter, false);
+    titlebar()->setSeparatorVisible(true);
+    titlebar()->setFixedHeight(45);
 
     // init toolbar attribute.
     m_toolBar->setStartButtonEnabled(false);
     m_toolBar->setPauseButtonEnabled(false);
     m_toolBar->setDeleteButtonEnabled(false);
 
+    // init bottom label attribute.
+    m_monitorLabel->setStyleSheet("QLabel { color: #797979; }");
+    setMonitorText(0, 0);
+
     // m_trayIcon->show();
     m_refreshTimer->setInterval(1000);
 
     taskLayout->addWidget(m_tableView);
+    taskLayout->addSpacing(5);
+    taskLayout->addWidget(m_monitorLabel, 0, Qt::AlignHCenter);
+    taskLayout->addSpacing(5);
+
     centralLayout->addWidget(m_slideBar);
     centralLayout->addLayout(taskLayout);
     centralLayout->setSpacing(0);
@@ -116,6 +125,16 @@ void MainWindow::startAria2c()
     args << "--disable-ipv6";
 
     process->start("/usr/bin/aria2c", args);
+}
+
+void MainWindow::setMonitorText(const int &total, const int &processing)
+{
+    QString text;
+    text.append(QString("total %1 task(s)").arg(total));
+    text.append(" , ");
+    text.append(QString("%1 task is processing").arg(processing));
+
+    m_monitorLabel->setText(text);
 }
 
 void MainWindow::activeWindow()

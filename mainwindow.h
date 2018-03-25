@@ -23,6 +23,8 @@
 #include <DMainWindow>
 #include <QHBoxLayout>
 #include <QTimer>
+#include <QLabel>
+
 #include "toolbar.h"
 #include "slidebar.h"
 #include "tableview.h"
@@ -49,6 +51,7 @@ private:
 
 private slots:
     void activeWindow();
+    void setMonitorText(const int &total, const int &processing);
     void onNewTaskBtnClicked();
     void handleDialogAddTask(const QString &url);
     void handleAddedTask(const QString &gid);
@@ -62,6 +65,7 @@ private:
     TableView *m_tableView;
     Aria2RPC *m_aria2RPC;
     TrayIcon *m_trayIcon;
+    QLabel *m_monitorLabel;
     QTimer *m_refreshTimer;
 };
 
