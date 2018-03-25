@@ -26,6 +26,7 @@
 
 QTableView {
     alternate-background-color: #FAFAFA;
+    border: none;
 }
 
 QHeaderView::section {
