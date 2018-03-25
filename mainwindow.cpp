@@ -48,11 +48,15 @@ MainWindow::MainWindow(QWidget *parent)
     QHBoxLayout *centralLayout = new QHBoxLayout(centralWidget);
     QVBoxLayout *taskLayout = new QVBoxLayout;
 
-    taskLayout->addWidget(m_tableView);
+    // init toolbar attribute.
+    m_toolBar->setStartButtonEnabled(false);
+    m_toolBar->setPauseButtonEnabled(false);
+    m_toolBar->setDeleteButtonEnabled(false);
 
-    m_trayIcon->show();
+    // m_trayIcon->show();
     m_refreshTimer->setInterval(1000);
 
+    taskLayout->addWidget(m_tableView);
     centralLayout->addWidget(m_slideBar);
     centralLayout->addLayout(taskLayout);
     centralLayout->setSpacing(0);
@@ -62,8 +66,8 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowIcon(QIcon(":/images/deepin-downloader.svg"));
 
     startAria2c();
-    setMinimumSize(900, 588);
-    resize(900, 588);
+    setMinimumSize(920, 590);
+    resize(920, 590);
 
     setStyleSheet(Utils::getQssContent(":/qss/style.qss"));
     setFocusPolicy(Qt::ClickFocus);
@@ -75,6 +79,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_trayIcon, &TrayIcon::openActionTriggered, this, &MainWindow::activeWindow);
     connect(m_trayIcon, &TrayIcon::exitActionTriggered, qApp, &QApplication::quit);
+
+    // for test.
+    for (int i = 0; i < 100; ++i) {
+        GlobalStruct *data = new GlobalStruct;
+        data->gid = QString("%1 - hello world world world world worlds").arg(i);
+        m_tableView->model()->append(data);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -83,9 +94,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    // e->accept();
-    setVisible(false);
-    e->ignore();
+    if (!m_trayIcon->isVisible()) {
+        e->accept();
+    } else {
+        setVisible(false);
+        e->ignore();
+    }
 }
 
 void MainWindow::startAria2c()
@@ -132,7 +146,7 @@ void MainWindow::handleAddedTask(const QString &gid)
 }
 
 void MainWindow::handleUpdateStatus(const QString &gid, const QString &status, const QString &totalLength,
-                                    const QString &completedLenth, const QString &speed, const int &percent)
+                                    const QString &completedLenth, const QString &speed, const QString &percent)
 {
     GlobalStruct *data = m_tableView->model()->find(gid);
 

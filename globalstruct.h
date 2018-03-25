@@ -30,7 +30,7 @@ struct GlobalStruct {
     QString savePath;
     QString completedLenth;
     QString totalLength;
-    int percent = 0;
+    QString percent;
 };
 
 #endif

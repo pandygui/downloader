@@ -85,7 +85,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
             return QVariant(m_dataList->at(row)->totalLength);
     case TableModel::Speed:
         return QVariant(m_dataList->at(row)->speed);
-    case TableModel::Percent:
+    case TableModel::Time:
         return QVariant(m_dataList->at(row)->percent);
     case TableModel::Status:
         return QVariant(m_dataList->at(row)->status);
@@ -108,11 +108,11 @@ QVariant TableModel::headerData(int section, Qt::Orientation orientation, int ro
     case 0:
         return tr("File name");
     case 1:
-        return tr("Size");
+        return tr("Size and progress");
     case 2:
         return tr("Speed");
     case 3:
-        return tr("Percent");
+        return tr("Remaining time");
     case 4:
         return tr("Status");
     }

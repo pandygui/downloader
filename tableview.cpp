@@ -34,19 +34,24 @@ TableView::TableView(QWidget *parent)
     verticalHeader()->setDefaultSectionSize(45);
     headerView->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     headerView->setSectionResizeMode(0, QHeaderView::Stretch);
-    headerView->setSectionResizeMode(1, QHeaderView::Fixed);
+    headerView->setSectionResizeMode(1, QHeaderView::Stretch);
     headerView->setSectionResizeMode(2, QHeaderView::Fixed);
-    headerView->setSectionResizeMode(3, QHeaderView::Stretch);
+    headerView->setSectionResizeMode(3, QHeaderView::Fixed);
+    headerView->setSectionResizeMode(4, QHeaderView::Fixed);
     headerView->setHighlightSections(false);
 
     setColumnWidth(0, 300);
-    setColumnWidth(1, 100);
-    setColumnWidth(2, 100);
-    setColumnWidth(3, 160);
+    setColumnWidth(1, 150);
+    setColumnWidth(2, 120);
+    setColumnWidth(3, 140);
     setColumnWidth(4, 100);
 
-    setShowGrid(false);
+    resizeRowsToContents();
+    setWordWrap(true);
+    setTextElideMode(Qt::ElideRight);
     setAlternatingRowColors(true);
+    setSortingEnabled(true);
+    setShowGrid(false);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSelectionMode(QAbstractItemView::SingleSelection);
     setSelectionBehavior(QAbstractItemView::SelectRows);

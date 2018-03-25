@@ -141,7 +141,7 @@ void Aria2RPC::handleTellStatus(const QJsonObject &object)
     const QString status = result.value("status").toString();
     const QString totalLength = result.value("totalLength").toString();
     const QString completedLength = result.value("completedLength").toString();
-    const int percent = completedLength.toLong() * 100 / totalLength.toLong();
+    const QString percent = QString::number(completedLength.toLong() * 100 / totalLength.toLong()) + "%";
 
     QString speed = "";
 

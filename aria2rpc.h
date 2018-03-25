@@ -33,7 +33,7 @@ public:
 signals:
     void addedTask(const QString &gid);
     void updateStatus(const QString &gid, const QString &status, const QString &totalLength,
-                      const QString &completedLenth, const QString &speed, const int &percent);
+                      const QString &completedLenth, const QString &speed, const QString &percent);
 
 public slots:
     void addUri(const QString &uri, const QString &id);

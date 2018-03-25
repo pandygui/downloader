@@ -30,7 +30,7 @@ class TableModel : public QAbstractTableModel
 public:
 
     enum Column {
-        FileName = 0, Size, Speed, Percent, Status
+        FileName = 0, Size, Speed, Time, Status
     };
 
     TableModel(QObject *parent = nullptr);
