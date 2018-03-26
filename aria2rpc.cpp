@@ -139,7 +139,7 @@ void Aria2RPC::handleNetworkReply(QNetworkReply *reply, const QString &method)
         if (!object.isEmpty()) {
             if (method == "aria2.tellStatus") {
                 handleTellStatus(object);
-            } else {
+            } else if (method == "aria2.addUri"){
                 Q_EMIT addedTask(object.value("result").toString());
             }
         }

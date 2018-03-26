@@ -73,22 +73,22 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     } else if (column == TableModel::Status) {
         QString statusText = "";
         switch (data.toInt()) {
-        case Status::Active:
+        case Global::Status::Active:
             statusText = Global::ACTIVE;
             break;
-        case Status::Waiting:
+        case Global::Status::Waiting:
             statusText = Global::WAITING;
             break;
-        case Status::Paused:
+        case Global::Status::Paused:
             statusText = Global::PAUSED;
             break;
-        case Status::Error:
+        case Global::Status::Error:
             statusText = Global::ERROR;
             break;
-        case Status::Complete:
+        case Global::Status::Complete:
             statusText = Global::COMPLETE;
             break;
-        case Status::Removed:
+        case Global::Status::Removed:
             statusText = Global::REMOVED;
             break;
         }

@@ -40,6 +40,9 @@ public:
 
 signals:
     void newTaskBtnClicked();
+    void startBtnClicked();
+    void pauseBtnClicked();
+    void deleteBtnClicked();
 
 private slots:
     void showToolsButton();

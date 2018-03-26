@@ -86,6 +86,9 @@ ToolBar::ToolBar(QWidget *parent)
     setFocusPolicy(Qt::ClickFocus);
 
     connect(m_taskAddBtn, &DImageButton::clicked, this, &ToolBar::newTaskBtnClicked);
+    connect(m_taskStartBtn, &DImageButton::clicked, this, &ToolBar::startBtnClicked);
+    connect(m_taskPauseBtn, &DImageButton::clicked, this, &ToolBar::pauseBtnClicked);
+    connect(m_taskDeleteBtn, &DImageButton::clicked, this, &ToolBar::deleteBtnClicked);
     connect(m_searchBtn, &DImageButton::clicked, this, &ToolBar::showSearchEdit);
     connect(m_searchEdit, &DSearchEdit::focusOut, this, [=] { QTimer::singleShot(300, this, &ToolBar::showToolsButton); });
 }

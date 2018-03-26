@@ -91,6 +91,8 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
         return QVariant("");
     case TableModel::Status:
         return QVariant(data->status);
+    case TableModel::GID:
+        return QVariant(data->gid);
     }
 
     return QVariant();

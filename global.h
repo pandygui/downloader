@@ -28,7 +28,7 @@ namespace Global {
         QString url;
         QString speed;
         QString gid;
-        QString status;
+        int status;
         QString savePath;
         QString completedLength;
         QString totalLength;

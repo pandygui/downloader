@@ -51,9 +51,9 @@ MainWindow::MainWindow(QWidget *parent)
     titlebar()->setFixedHeight(45);
 
     // init toolbar attribute.
-    m_toolBar->setStartButtonEnabled(false);
-    m_toolBar->setPauseButtonEnabled(false);
-    m_toolBar->setDeleteButtonEnabled(false);
+    // m_toolBar->setStartButtonEnabled(false);
+    // m_toolBar->setPauseButtonEnabled(false);
+    // m_toolBar->setDeleteButtonEnabled(false);
 
     // init bottom label attribute.
     m_monitorLabel->setStyleSheet("QLabel { color: #797979; }");
@@ -61,13 +61,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     // m_trayIcon->show();
     m_refreshTimer->setInterval(1000);
+    m_refreshTimer->stop();
 
     taskLayout->addWidget(m_tableView);
     taskLayout->addSpacing(5);
     taskLayout->addWidget(m_monitorLabel, 0, Qt::AlignHCenter);
     taskLayout->addSpacing(5);
 
-    centralLayout->addWidget(m_slideBar);
+    // centralLayout->addWidget(m_slideBar);
     centralLayout->addLayout(taskLayout);
     centralLayout->setSpacing(0);
     centralLayout->setMargin(0);
@@ -83,11 +84,15 @@ MainWindow::MainWindow(QWidget *parent)
     setFocusPolicy(Qt::ClickFocus);
 
     connect(m_toolBar, &ToolBar::newTaskBtnClicked, this, &MainWindow::onNewTaskBtnClicked);
+    connect(m_toolBar, &ToolBar::startBtnClicked, this, &MainWindow::onStartBtnClicked);
+    connect(m_toolBar, &ToolBar::pauseBtnClicked, this, &MainWindow::onPauseBtnClicked);
+    connect(m_toolBar, &ToolBar::deleteBtnClicked, this, &MainWindow::onDeleteBtnClicked);
+
     connect(m_aria2RPC, &Aria2RPC::addedTask, this, &MainWindow::handleAddedTask);
     connect(m_aria2RPC, &Aria2RPC::updateStatus, this, &MainWindow::handleUpdateStatus);
     connect(m_refreshTimer, &QTimer::timeout, this, &MainWindow::refreshEvent);
 
-    connect(m_tableView, &QTableView::clicked, this, &MainWindow::handleTableClicked);
+    // connect(m_tableView, &QTableView::clicked, this, &MainWindow::updateToolBarStatus);
 
     connect(m_trayIcon, &TrayIcon::openActionTriggered, this, &MainWindow::activeWindow);
     connect(m_trayIcon, &TrayIcon::exitActionTriggered, qApp, &QApplication::quit);
@@ -153,6 +158,54 @@ void MainWindow::onNewTaskBtnClicked()
     dlg->exec();
 }
 
+void MainWindow::onStartBtnClicked()
+{
+    const QModelIndexList selected = m_tableView->selectionModel()->selectedRows();
+
+    for (const QModelIndex &index : selected) {
+        const QString gid = index.data(TableModel::GID).toString();
+        const int status = index.data(TableModel::Status).toInt();
+
+        if (status != Global::Status::Active) {
+            m_aria2RPC->unpause(gid);
+        }
+    }
+
+    m_tableView->update();
+}
+
+void MainWindow::onPauseBtnClicked()
+{
+    const QModelIndexList selected = m_tableView->selectionModel()->selectedRows();
+
+    for (const QModelIndex &index : selected) {
+        const QString gid = index.data(TableModel::GID).toString();
+        const int status = index.data(TableModel::Status).toInt();
+
+        if (status != Global::Status::Paused) {
+            m_aria2RPC->pause(gid);
+        }
+    }
+
+    m_tableView->update();
+}
+
+void MainWindow::onDeleteBtnClicked()
+{
+    const QModelIndexList selected = m_tableView->selectionModel()->selectedRows();
+
+    for (const QModelIndex &index : selected) {
+        const QString gid = index.data(TableModel::GID).toString();
+        const int status = index.data(TableModel::Status).toInt();
+
+        if (status != Global::Status::Removed) {
+            m_aria2RPC->remove(gid);
+        }
+    }
+
+    m_tableView->update();
+}
+
 void MainWindow::handleDialogAddTask(const QString &url)
 {
     m_aria2RPC->addUri(url, "");
@@ -184,7 +237,7 @@ void MainWindow::handleUpdateStatus(const QString &gid, const int &status, const
     m_tableView->update();
 }
 
-void MainWindow::handleTableClicked(const QModelIndex &index)
+void MainWindow::updateToolBarStatus(const QModelIndex &index)
 {
     const int status = index.data(TableModel::Status).toInt();
 
