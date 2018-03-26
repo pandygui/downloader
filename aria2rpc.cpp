@@ -48,8 +48,6 @@ void Aria2RPC::addUri(const QString &uri, const QString &id)
 
 void Aria2RPC::remove(const QString &gid)
 {
-    qDebug() << "remove: " << gid;
-
     QJsonArray params;
 
     if (gid != "0") {
@@ -65,6 +63,13 @@ void Aria2RPC::pause(const QString &gid)
     QJsonArray params;
     params.append(gid);
     sendMessage("aria2.pause", gid, params);
+}
+
+void Aria2RPC::unpause(const QString &gid)
+{
+    QJsonArray params;
+    params.append(gid);
+    sendMessage("aria2.unpause", gid, params);    
 }
 
 void Aria2RPC::tellStatus(const QString &gid)

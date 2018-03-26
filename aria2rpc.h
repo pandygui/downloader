@@ -39,6 +39,7 @@ public slots:
     void addUri(const QString &uri, const QString &id);
     void remove(const QString &gid);
     void pause(const QString &gid);
+    void unpause(const QString &gid);
     void tellStatus(const QString &gid);
     void tellActive();
     void tellWaiting();
