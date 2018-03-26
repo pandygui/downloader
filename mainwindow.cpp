@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_toolBar->setDeleteButtonEnabled(false);
 
     // init bottom label attribute.
-    m_monitorLabel->setStyleSheet("QLabel { color: #797979; }");
+    m_monitorLabel->setStyleSheet("QLabel { color: #797979; font-size: 15px; }");
     setMonitorText(0, 0);
 
     // m_trayIcon->show();

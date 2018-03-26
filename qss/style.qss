@@ -35,6 +35,7 @@ QHeaderView::section {
     height: 32px;
     font-style: normal;
     font-weight: normal;
+    font-size: 15px;
 }
 
 QHeaderView::section:horizontal {
