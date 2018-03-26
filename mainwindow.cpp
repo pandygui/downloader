@@ -60,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
     setMonitorText(0, 0);
 
     // m_trayIcon->show();
-    m_refreshTimer->setInterval(1000);
+    m_refreshTimer->setInterval(800);
 
     taskLayout->addWidget(m_tableView);
     taskLayout->addSpacing(5);

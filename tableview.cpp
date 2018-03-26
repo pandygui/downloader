@@ -44,7 +44,7 @@ TableView::TableView(QWidget *parent)
     setColumnWidth(1, 100);
     setColumnWidth(2, 120);
     setColumnWidth(3, 140);
-    setColumnWidth(4, 100);
+    setColumnWidth(4, 120);
 
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSelectionMode(QAbstractItemView::ExtendedSelection);

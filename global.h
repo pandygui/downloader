@@ -39,7 +39,7 @@ namespace Global {
         Active = 0, Waiting, Paused, Error, Complete, Removed
     };
 
-    const QString ACTIVE = QObject::tr("Active");
+    const QString ACTIVE = QObject::tr("Downloading");
     const QString WAITING = QObject::tr("Waiting");
     const QString PAUSED = QObject::tr("Paused");
     const QString ERROR = QObject::tr("Error");

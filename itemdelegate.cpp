@@ -93,9 +93,11 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
             break;
         }
 
-        if (!isSelected) {
-            painter->setPen(QColor("#95CF52"));
-        }
+        statusText = painter->fontMetrics().elidedText(statusText, Qt::ElideRight, textRect.width() - 10);
+
+        // if (!isSelected) {
+        //     painter->setPen(QColor("#95CF52"));
+        // }
 
         painter->drawText(rect.marginsRemoved(QMargins(10, 0, 10, 0)), Qt::AlignVCenter | Qt::AlignLeft, statusText);
     }
