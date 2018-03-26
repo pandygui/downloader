@@ -39,6 +39,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     const QRect rect(option.rect);
     const int column(index.column());
     const QString text(index.data(column).toString());
+    const bool isSelected = option.state & QStyle::State_Selected;
 
     QFont font;
     font.setPointSize(11);
@@ -48,7 +49,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     painter->setPen(QColor("#303030"));
 
     // painting selection item background.
-    if (option.state & QStyle::State_Selected) {
+    if (isSelected) {
         painter->setPen(Qt::white);
         painter->fillRect(rect, QColor("#2CA7F8"));
     }
@@ -66,6 +67,10 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     } else if (column == TableModel::Time) {
         painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, text);
     } else if (column == TableModel::Status) {
+        if (!isSelected) {
+            painter->setPen(QColor("#95CF52"));
+        }
+        
         painter->drawText(rect.marginsRemoved(QMargins(10, 0, 10, 0)), Qt::AlignVCenter | Qt::AlignLeft, text);
     }
 }
