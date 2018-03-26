@@ -40,6 +40,9 @@ public slots:
     void remove(const QString &gid);
     void pause(const QString &gid);
     void tellStatus(const QString &gid);
+    void tellActive();
+    void tellWaiting();
+    void tellStopped();
 
 private:
     void sendMessage(const QString &method, const QString &id, QJsonArray params);

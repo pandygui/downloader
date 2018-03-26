@@ -74,6 +74,30 @@ void Aria2RPC::tellStatus(const QString &gid)
     sendMessage("aria2.tellStatus", gid, params);
 }
 
+void Aria2RPC::tellActive()
+{
+    QJsonArray params;
+    params.append(0);
+    params.append(100);
+    sendMessage("aria2.tellActive", 0, params);
+}
+
+void Aria2RPC::tellWaiting()
+{
+    QJsonArray params;
+    params.append(0);
+    params.append(100);
+    sendMessage("aria2.tellWaiting", 0, params);
+}
+
+void Aria2RPC::tellStopped()
+{
+    QJsonArray params;
+    params.append(0);
+    params.append(100);
+    sendMessage("aria2.tellStopped", 0, params);
+}
+
 void Aria2RPC::sendMessage(const QString &method, const QString &id, QJsonArray params)
 {
     QNetworkAccessManager *manager = new QNetworkAccessManager;
@@ -150,7 +174,7 @@ void Aria2RPC::handleTellStatus(const QJsonObject &object)
     if (speedSize != 0) {
         speed = Utils::formatSpeed(speedSize);
     }
-    
+
     if (statusStr == "active") {
         status = Global::Status::Active;
     } else if (statusStr == "waiting") {
