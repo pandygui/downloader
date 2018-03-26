@@ -61,7 +61,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // m_trayIcon->show();
     m_refreshTimer->setInterval(1000);
-    m_refreshTimer->stop();
 
     taskLayout->addWidget(m_tableView);
     taskLayout->addSpacing(5);
@@ -199,6 +198,8 @@ void MainWindow::onDeleteBtnClicked()
         const int status = index.data(TableModel::Status).toInt();
 
         if (status != Global::Status::Removed) {
+            GlobalStruct *data = m_tableView->tableModel()->find(gid);
+            m_tableView->tableModel()->removeItem(data);
             m_aria2RPC->remove(gid);
         }
     }
@@ -217,13 +218,13 @@ void MainWindow::handleAddedTask(const QString &gid)
     GlobalStruct *data = new GlobalStruct;
     data->gid = gid;
 
-    m_tableView->model()->append(data);
+    m_tableView->tableModel()->append(data);
 }
 
 void MainWindow::handleUpdateStatus(const QString &gid, const int &status, const QString &totalLength,
-                                    const QString &completedLenth, const QString &speed, const QString &percent)
+                                     const QString &completedLenth, const QString &speed, const QString &percent)
 {
-    GlobalStruct *data = m_tableView->model()->find(gid);
+    GlobalStruct *data = m_tableView->tableModel()->find(gid);
 
     if (!data) return;
 
@@ -267,16 +268,21 @@ void MainWindow::updateToolBarStatus(const QModelIndex &index)
         m_toolBar->setPauseButtonEnabled(false);
         m_toolBar->setDeleteButtonEnabled(true);
         break;
-    case Status::Removed:
-        break;
     }
 }
 
 void MainWindow::refreshEvent()
 {
-    auto *list = m_tableView->model()->dataList();
+    QList<GlobalStruct *> *dataList = m_tableView->tableModel()->dataList();
+    int active = 0;
 
-    for (int i = 0; i < list->size(); ++i) {
-        m_aria2RPC->tellStatus(list->at(i)->gid);
+    for (auto *item : *dataList) {
+        m_aria2RPC->tellStatus(item->gid);
+
+        if (item->status == Global::Status::Active) {
+            ++active;
+        }
     }
+
+    setMonitorText(dataList->count(), active);
 }

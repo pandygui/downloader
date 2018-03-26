@@ -27,7 +27,7 @@ TableModel::TableModel(QObject *parent)
 
 TableModel::~TableModel()
 {
-    qDeleteAll(m_dataList->begin(), m_dataList->end());
+    delete m_dataList;
 }
 
 GlobalStruct * TableModel::find(const QString &gid)
@@ -42,6 +42,7 @@ GlobalStruct * TableModel::find(const QString &gid)
 void TableModel::append(GlobalStruct *data)
 {
     int row = m_dataList->count();
+
     beginInsertRows(QModelIndex(), row, row);
     m_dataList->append(data);
     m_map.insert(data->gid, data);
@@ -66,7 +67,7 @@ void TableModel::removeItems()
 
 int TableModel::rowCount(const QModelIndex &parent) const
 {
-    return m_dataList->count();
+    return m_dataList->size();
 }
 
 int TableModel::columnCount(const QModelIndex &parent) const
@@ -77,6 +78,9 @@ int TableModel::columnCount(const QModelIndex &parent) const
 QVariant TableModel::data(const QModelIndex &index, int role) const
 {
     const int row = index.row();
+
+    if (row < 0)  return QVariant();
+
     const GlobalStruct *data = m_dataList->at(row);
     const QChar sizeSepChar = (!data->totalLength.isEmpty()) ? '/' : ' ';
 

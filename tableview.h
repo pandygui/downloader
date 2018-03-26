@@ -35,7 +35,7 @@ public:
     TableView(QWidget *parent = nullptr);
     ~TableView();
 
-    TableModel *model() { return m_model; };
+    TableModel *tableModel() { return m_model; };
 
 protected:
     void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
