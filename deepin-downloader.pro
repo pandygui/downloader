@@ -14,7 +14,6 @@ PKGCONFIG += dtkwidget
 HEADERS += mainwindow.h \
 	   aria2rpc.h \
 	   slidebar.h \
-	   slidebutton.h \
 	   toolbar.h \
 	   newtaskdialog.h \
 	   tableview.h \
@@ -28,7 +27,6 @@ SOURCES += main.cpp \
 	   mainwindow.cpp \
 	   aria2rpc.cpp \
 	   slidebar.cpp \
-	   slidebutton.cpp \
 	   toolbar.cpp \
 	   newtaskdialog.cpp \
 	   tableview.cpp \

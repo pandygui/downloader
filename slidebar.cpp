@@ -18,6 +18,7 @@
  */
 
 #include "slidebar.h"
+#include <QPushButton>
 
 #define BUTTON_HEIGHT 35
 
@@ -49,12 +50,12 @@ void SlideBar::initButton()
     int count = 0;
 
     for (const auto &key : m_buttonList.keys()) {
-        SlideButton *btn = new SlideButton;
+        QPushButton *btn = new QPushButton;
         btn->setText(" " + m_buttonList[key]);
         btn->setFixedHeight(BUTTON_HEIGHT);
         btn->setCheckable(true);
-        btn->setNormalPic(QString(":/images/%1_normal.svg").arg(key));
-        btn->setActivePic(QString(":/images/%1_active.svg").arg(key));
+        // btn->setNormalPic(QString(":/images/%1_normal.svg").arg(key));
+        // btn->setActivePic(QString(":/images/%1_active.svg").arg(key));
 
         m_layout->addWidget(btn);
         m_buttonGroup->addButton(btn);
@@ -63,7 +64,7 @@ void SlideBar::initButton()
             btn->setChecked(true);
         }
 
-        connect(btn, &SlideButton::clicked, this, [=] { Q_EMIT buttonClicked(count); });
+        connect(btn, &QPushButton::clicked, this, [=] { Q_EMIT buttonClicked(count); });
 
         ++count;
     }

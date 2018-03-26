@@ -25,8 +25,6 @@
 #include <QButtonGroup>
 #include <QMap>
 
-#include "slidebutton.h"
-
 class SlideBar : public QFrame
 {
     Q_OBJECT

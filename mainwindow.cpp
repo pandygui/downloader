@@ -51,9 +51,9 @@ MainWindow::MainWindow(QWidget *parent)
     titlebar()->setFixedHeight(45);
 
     // init toolbar attribute.
-    // m_toolBar->setStartButtonEnabled(false);
-    // m_toolBar->setPauseButtonEnabled(false);
-    // m_toolBar->setDeleteButtonEnabled(false);
+    m_toolBar->setStartButtonEnabled(false);
+    m_toolBar->setPauseButtonEnabled(false);
+    m_toolBar->setDeleteButtonEnabled(false);
 
     // init bottom label attribute.
     m_monitorLabel->setStyleSheet("QLabel { color: #797979; }");
@@ -67,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
     taskLayout->addWidget(m_monitorLabel, 0, Qt::AlignHCenter);
     taskLayout->addSpacing(5);
 
-    // centralLayout->addWidget(m_slideBar);
+    centralLayout->addWidget(m_slideBar);
     centralLayout->addLayout(taskLayout);
     centralLayout->setSpacing(0);
     centralLayout->setMargin(0);
@@ -91,7 +91,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_aria2RPC, &Aria2RPC::updateStatus, this, &MainWindow::handleUpdateStatus);
     connect(m_refreshTimer, &QTimer::timeout, this, &MainWindow::refreshEvent);
 
-    // connect(m_tableView, &QTableView::clicked, this, &MainWindow::updateToolBarStatus);
+    connect(m_tableView, &QTableView::clicked, this, &MainWindow::updateToolBarStatus);
 
     connect(m_trayIcon, &TrayIcon::openActionTriggered, this, &MainWindow::activeWindow);
     connect(m_trayIcon, &TrayIcon::exitActionTriggered, qApp, &QApplication::quit);
