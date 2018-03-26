@@ -79,7 +79,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
 {
     const int row = index.row();
 
-    if (row < 0)  return QVariant();
+    if (m_dataList->isEmpty())  return QVariant();
 
     const GlobalStruct *data = m_dataList->at(row);
     const QChar sizeSepChar = (!data->totalLength.isEmpty()) ? '/' : ' ';

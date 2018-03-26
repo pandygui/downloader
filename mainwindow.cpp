@@ -284,5 +284,9 @@ void MainWindow::refreshEvent()
         }
     }
 
+    if (dataList->isEmpty()) {
+        m_refreshTimer->stop();
+    }
+
     setMonitorText(dataList->count(), active);
 }
