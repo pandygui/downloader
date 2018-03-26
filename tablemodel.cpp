@@ -91,7 +91,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
     case TableModel::Size:
         return QString("%1%2%3  %4").arg(data->completedLength).arg(sizeSepChar).arg(data->totalLength).arg(data->percent);
     case TableModel::Speed:
-        return data->speed;
+        return (data->status != Global::Status::Paused) ? data->speed : "";
     case TableModel::Time:
         return "";
     case TableModel::Status:
