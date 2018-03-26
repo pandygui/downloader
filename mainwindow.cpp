@@ -124,6 +124,10 @@ void MainWindow::startAria2c()
 {
     QProcess *process = new QProcess(this);
 
+    // first killed aria2c.
+    process->start("killall aria2c");
+    process->waitForFinished(-1);
+
     QStringList args;
     args << QString("--dir=%1/Desktop").arg(QDir::homePath());
     args << "--enable-rpc=true";
@@ -174,8 +178,6 @@ void MainWindow::onStartBtnClicked()
             m_aria2RPC->unpause(gid);
         }
     }
-
-    m_tableView->update();
 }
 
 void MainWindow::onPauseBtnClicked()
@@ -190,8 +192,6 @@ void MainWindow::onPauseBtnClicked()
             m_aria2RPC->pause(gid);
         }
     }
-
-    m_tableView->update();
 }
 
 void MainWindow::onDeleteBtnClicked()
@@ -204,8 +204,8 @@ void MainWindow::onDeleteBtnClicked()
 
         if (status != Global::Status::Removed) {
             GlobalStruct *data = m_tableView->tableModel()->find(gid);
-            m_tableView->tableModel()->removeItem(data);
             m_aria2RPC->remove(gid);
+            m_tableView->tableModel()->removeItem(data);
         }
     }
 }
@@ -269,6 +269,11 @@ void MainWindow::updateToolBarStatus(const QModelIndex &index)
         m_toolBar->setStartButtonEnabled(false);
         m_toolBar->setPauseButtonEnabled(false);
         m_toolBar->setDeleteButtonEnabled(true);
+        break;
+    case Status::Removed:
+        m_toolBar->setStartButtonEnabled(false);
+        m_toolBar->setPauseButtonEnabled(false);
+        m_toolBar->setDeleteButtonEnabled(false);
         break;
     }
 }

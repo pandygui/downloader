@@ -48,8 +48,6 @@ SlideBar::~SlideBar()
 {
 }
 
-#include <QDebug>
-
 void SlideBar::initButton()
 {
     int count = 0;
@@ -70,9 +68,7 @@ void SlideBar::initButton()
         }
 
         connect(btn, &QPushButton::clicked, this, [=] { Q_EMIT buttonClicked(count); });
-
         ++count;
-
     }
 
     m_layout->addStretch();

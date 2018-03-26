@@ -33,7 +33,7 @@ TableModel::~TableModel()
 GlobalStruct * TableModel::find(const QString &gid)
 {
     if (m_map.contains(gid)) {
-        return m_map[gid];
+        return m_map.value(gid);
     }
 
     return nullptr;
@@ -41,7 +41,7 @@ GlobalStruct * TableModel::find(const QString &gid)
 
 void TableModel::append(GlobalStruct *data)
 {
-    int row = m_dataList->count();
+    int row = m_dataList->size();
 
     beginInsertRows(QModelIndex(), row, row);
     m_dataList->append(data);
@@ -52,17 +52,21 @@ void TableModel::append(GlobalStruct *data)
 void TableModel::removeItem(GlobalStruct *data)
 {
     if (m_map.contains(data->gid)) {
+        beginRemoveRows(QModelIndex(), m_dataList->indexOf(data), m_dataList->indexOf(data));
         m_map.remove(data->gid);
         m_dataList->removeOne(data);
         delete data;
+        endRemoveRows();
     }
 }
 
 void TableModel::removeItems()
 {
+    beginRemoveRows(QModelIndex(), 0, m_dataList->size());
     qDeleteAll(m_dataList->begin(), m_dataList->end());
     m_dataList->clear();
     m_map.clear();
+    endRemoveRows();
 }
 
 int TableModel::rowCount(const QModelIndex &parent) const
@@ -78,25 +82,22 @@ int TableModel::columnCount(const QModelIndex &parent) const
 QVariant TableModel::data(const QModelIndex &index, int role) const
 {
     const int row = index.row();
-
-    if (m_dataList->isEmpty())  return QVariant();
-
     const GlobalStruct *data = m_dataList->at(row);
     const QChar sizeSepChar = (!data->totalLength.isEmpty()) ? '/' : ' ';
 
     switch (role) {
     case TableModel::FileName:
-        return QVariant(data->gid);
+        return data->gid;
     case TableModel::Size:
         return QString("%1%2%3  %4").arg(data->completedLength).arg(sizeSepChar).arg(data->totalLength).arg(data->percent);
     case TableModel::Speed:
-        return QVariant(data->speed);
+        return data->speed;
     case TableModel::Time:
-        return QVariant("");
+        return "";
     case TableModel::Status:
-        return QVariant(data->status);
+        return data->status;
     case TableModel::GID:
-        return QVariant(data->gid);
+        return data->gid;
     }
 
     return QVariant();

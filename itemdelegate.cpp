@@ -54,8 +54,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
     // painting selection item background.
     if (isSelected) {
-        painter->setPen(Qt::white);
-        painter->fillRect(rect, QColor("#2CA7F8"));
+        painter->fillRect(rect, QColor("#D5EDFE"));
     }
 
     const QRect textRect = rect.marginsRemoved(QMargins(10, 0, 0, 0));
