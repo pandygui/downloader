@@ -17,33 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SLIDEBAR_H
-#define SLIDEBAR_H
+#ifndef SLIDEBUTTON_H
+#define SLIDEBUTTON_H
 
-#include <QFrame>
-#include <QVBoxLayout>
-#include <QButtonGroup>
-#include <QMap>
+#include <QPushButton>
 
-#include "slidebutton.h"
-
-class SlideBar : public QFrame
+class SlideButton : public QPushButton
 {
     Q_OBJECT
 
 public:
-    SlideBar(QWidget *parent = nullptr);
-    ~SlideBar();
-    
-    void initButton();
+    SlideButton(QWidget *parent = nullptr);
+    ~SlideButton();
 
-signals:
-    void buttonClicked(const int index);
+    void setNormalPic(const QString &fileName);
+    void setActivePic(const QString &fileName);
+
+protected:
+    void handleChanged(bool checked);
+    void paintEvent(QPaintEvent *);
 
 private:
-    QVBoxLayout *m_layout;
-    QButtonGroup *m_buttonGroup;
-    QMap<QString, QString> m_buttonList;
+    QPixmap m_normalPic;
+    QPixmap m_activePic;
 };
 
 #endif

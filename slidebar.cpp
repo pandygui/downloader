@@ -50,12 +50,12 @@ void SlideBar::initButton()
     int count = 0;
 
     for (const auto &key : m_buttonList.keys()) {
-        QPushButton *btn = new QPushButton;
+        SlideButton *btn = new SlideButton;
         btn->setText(" " + m_buttonList[key]);
         btn->setFixedHeight(BUTTON_HEIGHT);
         btn->setCheckable(true);
-        // btn->setNormalPic(QString(":/images/%1_normal.svg").arg(key));
-        // btn->setActivePic(QString(":/images/%1_active.svg").arg(key));
+        btn->setNormalPic(QString(":/images/%1_normal.svg").arg(key));
+        btn->setActivePic(QString(":/images/%1_active.svg").arg(key));
 
         m_layout->addWidget(btn);
         m_buttonGroup->addButton(btn);
