@@ -19,7 +19,6 @@
 
 #include "slidebutton.h"
 #include "dsvgrenderer.h"
-#include "dhidpihelper.h"
 
 #include <QPainter>
 #include <QDebug>
@@ -29,10 +28,6 @@ DWIDGET_USE_NAMESPACE
 SlideButton::SlideButton(QWidget *parent)
     : QPushButton(parent)
 {
-    const qreal ratio = devicePixelRatioF();
-    setIconSize(QSize(15, 15) * ratio);
-
-    connect(this, &QPushButton::toggled, this, &SlideButton::handleChanged);
 }
 
 SlideButton::~SlideButton()
@@ -43,38 +38,54 @@ void SlideButton::setNormalPic(const QString &fileName)
 {
     const qreal ratio = devicePixelRatioF();
 
-    m_normalPic = DSvgRenderer::render(fileName, QSize(15, 15) * ratio);
+    m_normalPic = DSvgRenderer::render(fileName, QSize(16, 16) * ratio);
     m_normalPic.setDevicePixelRatio(ratio);
-    setIcon(m_normalPic);
+
+    update();
 }
 
 void SlideButton::setActivePic(const QString &fileName)
 {
     const qreal ratio = devicePixelRatioF();
 
-    m_activePic = DSvgRenderer::render(fileName, QSize(15, 15) * ratio);
+    m_activePic = DSvgRenderer::render(fileName, QSize(16, 16) * ratio);
     m_activePic.setDevicePixelRatio(ratio);
 }
 
-void SlideButton::handleChanged(bool checked)
+void SlideButton::setTextStr(const QString &text)
 {
-    if (checked) {
-        setIcon(m_activePic);
-    } else {
-        setIcon(m_normalPic);
-    }
+    m_text = text;
+
+    update();
 }
 
 void SlideButton::paintEvent(QPaintEvent *e)
 {
     QPushButton::paintEvent(e);
 
+    QPainter painter(this);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
+
+    const QPixmap iconPixmap = isChecked() ? m_activePic : m_normalPic;
+    const int padding = 15;
+    const QRect r = rect();
+
+    // draw icon.
+    const qreal ratio = devicePixelRatioF();
+    const int iconY = (r.height() - iconPixmap.height() / iconPixmap.devicePixelRatio()) / 2;
+    const int iconWidth = iconPixmap.width() / iconPixmap.devicePixelRatio();
+    const int iconHeight = iconPixmap.height() / iconPixmap.devicePixelRatio();
+    painter.drawPixmap(QRect(padding, iconY, iconWidth, iconHeight), iconPixmap);
+
+    // draw text.
+    painter.setPen(isChecked() ? QColor("#2CA7F8") : QColor("#000000"));
+    painter.drawText(QRect(iconWidth + padding + 5, 0, r.width(), r.height()), Qt::AlignVCenter, m_text);
+
     if (!isChecked())
         return;
 
-    QRect r = rect();
-    r.setLeft(r.right() - 2);
-
-    QPainter painter(this);
-    painter.fillRect(r, QColor(44, 167, 248));
+    // draw right separator line.
+    QRect rightRect = r;
+    rightRect.setLeft(r.right() - 2);
+    painter.fillRect(rightRect, QColor(44, 167, 248));
 }

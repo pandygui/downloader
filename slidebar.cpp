@@ -51,7 +51,7 @@ void SlideBar::initButton()
 
     for (const auto &key : m_buttonList.keys()) {
         SlideButton *btn = new SlideButton;
-        btn->setText(" " + m_buttonList[key]);
+        btn->setTextStr(" " + m_buttonList[key]);
         btn->setFixedHeight(BUTTON_HEIGHT);
         btn->setCheckable(true);
         btn->setNormalPic(QString(":/images/%1_normal.svg").arg(key));

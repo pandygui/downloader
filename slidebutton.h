@@ -32,14 +32,15 @@ public:
 
     void setNormalPic(const QString &fileName);
     void setActivePic(const QString &fileName);
+    void setTextStr(const QString &text);
 
 protected:
-    void handleChanged(bool checked);
     void paintEvent(QPaintEvent *);
 
 private:
     QPixmap m_normalPic;
     QPixmap m_activePic;
+    QString m_text;
 };
 
 #endif
