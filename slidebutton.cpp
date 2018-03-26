@@ -79,7 +79,7 @@ void SlideButton::paintEvent(QPaintEvent *e)
 
     // draw text.
     painter.setPen(isChecked() ? QColor("#2CA7F8") : QColor("#000000"));
-    painter.drawText(QRect(iconWidth + padding + 5, 0, r.width(), r.height()), Qt::AlignVCenter, m_text);
+    painter.drawText(QRect(iconWidth + padding + 5, 0, r.width(), r.height()), Qt::AlignVCenter | Qt::AlignLeft, m_text);
 
     if (!isChecked())
         return;
