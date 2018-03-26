@@ -59,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_monitorLabel->setStyleSheet("QLabel { color: #797979; }");
     setMonitorText(0, 0);
 
-    // m_trayIcon->show();
+    m_trayIcon->show();
     m_refreshTimer->setInterval(800);
 
     taskLayout->addWidget(m_tableView);
@@ -146,8 +146,11 @@ void MainWindow::setMonitorText(const int &total, const int &processing)
 
 void MainWindow::activeWindow()
 {
-    setVisible(true);
-    activateWindow();
+    setVisible(!isVisible());
+
+    if (isVisible()) {
+        activateWindow();
+    }
 }
 
 void MainWindow::onNewTaskBtnClicked()
