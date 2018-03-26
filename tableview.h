@@ -21,7 +21,9 @@
 #define TABLEVIEW_H
 
 #include <QTableView>
+#include <QItemSelection>
 #include <QStandardItemModel>
+
 #include "tablemodel.h"
 #include "global.h"
 
@@ -34,6 +36,9 @@ public:
     ~TableView();
 
     TableModel *model() { return m_model; };
+
+protected:
+    void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
 private:
     TableModel *m_model;

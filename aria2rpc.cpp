@@ -18,6 +18,7 @@
  */
 
 #include "aria2rpc.h"
+#include "global.h"
 #include "utils.h"
 
 #include <QNetworkAccessManager>
@@ -138,15 +139,30 @@ void Aria2RPC::handleTellStatus(const QJsonObject &object)
     const long speedSize = result.value("downloadSpeed").toString().toLong();
 
     const QString gid = result.value("gid").toString();
-    const QString status = result.value("status").toString();
+    const QString statusStr = result.value("status").toString();
     const QString totalLength = result.value("totalLength").toString();
     const QString completedLength = result.value("completedLength").toString();
     const QString percent = QString::number(completedLength.toLong() * 100 / totalLength.toLong()) + "%";
 
     QString speed = "";
+    int status = 0;
 
     if (speedSize != 0) {
         speed = Utils::formatSpeed(speedSize);
+    }
+    
+    if (statusStr == "active") {
+        status = Global::Status::Active;
+    } else if (statusStr == "waiting") {
+        status = Global::Status::Waiting;
+    } else if (statusStr == "paused") {
+        status = Global::Status::Paused;
+    } else if (statusStr == "error") {
+        status = Global::Status::Error;
+    } else if (statusStr == "complete") {
+        status = Global::Status::Complete;
+    } else if (statusStr == "removed") {
+        status = Global::Status::Removed;
     }
 
     Q_EMIT updateStatus(gid, status, Utils::formatUnit(totalLength.toLong()), Utils::formatUnit(completedLength.toLong()), speed, percent);

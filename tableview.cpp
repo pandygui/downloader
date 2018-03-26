@@ -59,3 +59,11 @@ TableView::TableView(QWidget *parent)
 TableView::~TableView()
 {
 }
+
+void TableView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    QTableView::selectionChanged(selected, deselected);
+
+    if (!model())
+        return;
+}

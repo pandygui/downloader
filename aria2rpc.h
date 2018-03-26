@@ -32,7 +32,7 @@ public:
 
 signals:
     void addedTask(const QString &gid);
-    void updateStatus(const QString &gid, const QString &status, const QString &totalLength,
+    void updateStatus(const QString &gid, const int &status, const QString &totalLength,
                       const QString &completedLenth, const QString &speed, const QString &percent);
 
 public slots:

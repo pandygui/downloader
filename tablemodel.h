@@ -23,6 +23,8 @@
 #include <QAbstractTableModel>
 #include "global.h"
 
+using namespace Global;
+
 class TableModel : public QAbstractTableModel
 {
     Q_OBJECT

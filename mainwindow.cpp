@@ -20,6 +20,7 @@
 #include "mainwindow.h"
 #include "dtitlebar.h"
 #include "newtaskdialog.h"
+#include "tablemodel.h"
 #include "utils.h"
 
 #include <QApplication>
@@ -85,6 +86,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_aria2RPC, &Aria2RPC::addedTask, this, &MainWindow::handleAddedTask);
     connect(m_aria2RPC, &Aria2RPC::updateStatus, this, &MainWindow::handleUpdateStatus);
     connect(m_refreshTimer, &QTimer::timeout, this, &MainWindow::refreshEvent);
+
+    connect(m_tableView, &QTableView::clicked, this, &MainWindow::handleTableClicked);
 
     connect(m_trayIcon, &TrayIcon::openActionTriggered, this, &MainWindow::activeWindow);
     connect(m_trayIcon, &TrayIcon::exitActionTriggered, qApp, &QApplication::quit);
@@ -164,7 +167,7 @@ void MainWindow::handleAddedTask(const QString &gid)
     m_tableView->model()->append(data);
 }
 
-void MainWindow::handleUpdateStatus(const QString &gid, const QString &status, const QString &totalLength,
+void MainWindow::handleUpdateStatus(const QString &gid, const int &status, const QString &totalLength,
                                     const QString &completedLenth, const QString &speed, const QString &percent)
 {
     GlobalStruct *data = m_tableView->model()->find(gid);
@@ -179,6 +182,41 @@ void MainWindow::handleUpdateStatus(const QString &gid, const QString &status, c
     data->speed = speed;
 
     m_tableView->update();
+}
+
+void MainWindow::handleTableClicked(const QModelIndex &index)
+{
+    const int status = index.data(TableModel::Status).toInt();
+
+    switch (status) {
+    case Status::Active:
+        m_toolBar->setStartButtonEnabled(false);
+        m_toolBar->setPauseButtonEnabled(true);
+        m_toolBar->setDeleteButtonEnabled(true);
+        break;
+    case Status::Waiting:
+        m_toolBar->setStartButtonEnabled(true);
+        m_toolBar->setPauseButtonEnabled(false);
+        m_toolBar->setDeleteButtonEnabled(true);
+        break;
+    case Status::Paused:
+        m_toolBar->setStartButtonEnabled(true);
+        m_toolBar->setPauseButtonEnabled(false);
+        m_toolBar->setDeleteButtonEnabled(true);
+        break;
+    case Status::Error:
+        m_toolBar->setStartButtonEnabled(true);
+        m_toolBar->setPauseButtonEnabled(false);
+        m_toolBar->setDeleteButtonEnabled(true);
+        break;
+    case Status::Complete:
+        m_toolBar->setStartButtonEnabled(false);
+        m_toolBar->setPauseButtonEnabled(false);
+        m_toolBar->setDeleteButtonEnabled(true);
+        break;
+    case Status::Removed:
+        break;
+    }
 }
 
 void MainWindow::refreshEvent()

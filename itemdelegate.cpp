@@ -20,9 +20,13 @@
 #include "itemdelegate.h"
 #include "tablemodel.h"
 #include "tableview.h"
+#include "global.h"
+
 #include <QStandardItemModel>
 #include <QPainter>
 #include <QDebug>
+
+using namespace Global;
 
 ItemDelegate::ItemDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
@@ -38,7 +42,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 {
     const QRect rect(option.rect);
     const int column(index.column());
-    const QString text(index.data(column).toString());
+    const QVariant data(index.data(column));
     const bool isSelected = option.state & QStyle::State_Selected;
 
     QFont font;
@@ -58,20 +62,42 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
     // painting each column item.
     if (column == TableModel::FileName) {
-        const QString name = painter->fontMetrics().elidedText(text, Qt::ElideLeft, textRect.width() - 10);
+        const QString name = painter->fontMetrics().elidedText(data.toString(), Qt::ElideLeft, textRect.width() - 10);
         painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, name);
     } else if (column == TableModel::Size) {
-        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, text);
+        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, data.toString());
     } else if (column == TableModel::Speed) {
-        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, text);
+        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, data.toString());
     } else if (column == TableModel::Time) {
-        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, text);
+        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, data.toString());
     } else if (column == TableModel::Status) {
+        QString statusText = "";
+        switch (data.toInt()) {
+        case Status::Active:
+            statusText = Global::ACTIVE;
+            break;
+        case Status::Waiting:
+            statusText = Global::WAITING;
+            break;
+        case Status::Paused:
+            statusText = Global::PAUSED;
+            break;
+        case Status::Error:
+            statusText = Global::ERROR;
+            break;
+        case Status::Complete:
+            statusText = Global::COMPLETE;
+            break;
+        case Status::Removed:
+            statusText = Global::REMOVED;
+            break;
+        }
+
         if (!isSelected) {
             painter->setPen(QColor("#95CF52"));
         }
-        
-        painter->drawText(rect.marginsRemoved(QMargins(10, 0, 10, 0)), Qt::AlignVCenter | Qt::AlignLeft, text);
+
+        painter->drawText(rect.marginsRemoved(QMargins(10, 0, 10, 0)), Qt::AlignVCenter | Qt::AlignLeft, statusText);
     }
 }
 

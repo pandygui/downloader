@@ -22,15 +22,30 @@
 
 #include <QObject>
 
-struct GlobalStruct {
-    QString url;
-    QString speed;
-    QString gid;
-    QString status;
-    QString savePath;
-    QString completedLength;
-    QString totalLength;
-    QString percent;
+namespace Global {
+
+    struct GlobalStruct {
+        QString url;
+        QString speed;
+        QString gid;
+        QString status;
+        QString savePath;
+        QString completedLength;
+        QString totalLength;
+        QString percent;
+    };
+
+    enum Status {
+        Active = 0, Waiting, Paused, Error, Complete, Removed
+    };
+
+    const QString ACTIVE = QObject::tr("Active");
+    const QString WAITING = QObject::tr("Waiting");
+    const QString PAUSED = QObject::tr("Paused");
+    const QString ERROR = QObject::tr("Error");
+    const QString COMPLETE = QObject::tr("Complete");
+    const QString REMOVED = QObject::tr("Removed");
 };
+
 
 #endif
