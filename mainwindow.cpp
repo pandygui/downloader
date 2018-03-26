@@ -60,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
     setMonitorText(0, 0);
 
     // m_trayIcon->show();
-    m_refreshTimer->setInterval(800);
+    m_refreshTimer->setInterval(500);
 
     taskLayout->addWidget(m_tableView);
     taskLayout->addSpacing(5);
@@ -225,7 +225,7 @@ void MainWindow::handleAddedTask(const QString &gid)
 }
 
 void MainWindow::handleUpdateStatus(const QString &gid, const int &status, const QString &totalLength,
-                                     const QString &completedLenth, const QString &speed, const QString &percent)
+                                     const QString &completedLenth, const QString &speed, const int &percent)
 {
     GlobalStruct *data = m_tableView->tableModel()->find(gid);
 

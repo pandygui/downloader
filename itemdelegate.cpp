@@ -23,6 +23,10 @@
 #include "global.h"
 
 #include <QStandardItemModel>
+#include <QStyleOptionViewItem>
+#include <QStyleOptionProgressBar>
+#include <QProgressBar>
+#include <QApplication>
 #include <QPainter>
 #include <QDebug>
 
@@ -42,7 +46,6 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 {
     const QRect rect(option.rect);
     const int column(index.column());
-    const QVariant data(index.data(column));
     const bool isSelected = option.state & QStyle::State_Selected;
 
     QFont font;
@@ -61,17 +64,50 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
     // painting each column item.
     if (column == TableModel::FileName) {
-        const QString name = painter->fontMetrics().elidedText(data.toString(), Qt::ElideLeft, textRect.width() - 10);
+
+        const QString name = painter->fontMetrics().elidedText(index.data(TableModel::FileName).toString(), Qt::ElideLeft, textRect.width() - 10);
         painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, name);
+
     } else if (column == TableModel::Size) {
-        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, data.toString());
+
+        QRect sizeRect = textRect;
+        sizeRect.setHeight(sizeRect.height() / 1.8);
+
+        QRect barRect = sizeRect;
+        barRect.setTop(sizeRect.bottom() + 7);
+        barRect.setWidth(barRect.width() - 10);
+        barRect.setHeight(6);
+
+        QStyleOptionViewItem viewOption(option);
+        initStyleOption(&viewOption, index);
+
+        QStyleOptionProgressBar *optionBar = new QStyleOptionProgressBar;
+        optionBar->initFrom(option.widget);
+        optionBar->rect = barRect;
+        optionBar->minimum = 0;
+        optionBar->maximum = 100;
+        optionBar->progress = index.data(TableModel::Percent).toInt();
+
+        QProgressBar *progressbar = new QProgressBar;
+        progressbar->setStyleSheet("background-color: rgba(0, 0, 0, 0.05);");
+        QApplication::style()->drawControl(QStyle::CE_ProgressBarContents, optionBar, painter, progressbar);
+
+        painter->drawText(sizeRect, Qt::AlignBottom | Qt::AlignLeft, index.data(TableModel::Size).toString() + "%");
+
     } else if (column == TableModel::Speed) {
-        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, data.toString());
+
+        const QString speed = index.data(TableModel::Speed).toString();
+        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, speed);
+
     } else if (column == TableModel::Time) {
-        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, data.toString());
+
+        const QString time = index.data(TableModel::Time).toString();
+        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, time);
+
     } else if (column == TableModel::Status) {
+
         QString statusText = "";
-        switch (data.toInt()) {
+        switch (index.data(TableModel::Status).toInt()) {
         case Global::Status::Active:
             statusText = Global::ACTIVE;
             break;

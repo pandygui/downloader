@@ -32,7 +32,7 @@ namespace Global {
         QString savePath;
         QString completedLength;
         QString totalLength;
-        QString percent;
+        int percent;
     };
 
     enum Status {

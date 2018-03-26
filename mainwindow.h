@@ -60,7 +60,7 @@ private slots:
     void handleDialogAddTask(const QString &url);
     void handleAddedTask(const QString &gid);
     void handleUpdateStatus(const QString &gid, const int &status, const QString &totalLength,
-                            const QString &completedLenth, const QString &speed, const QString &percent);
+                            const QString &completedLenth, const QString &speed, const int &percent);
     void updateToolBarStatus(const QModelIndex &index);
     void refreshEvent();
 

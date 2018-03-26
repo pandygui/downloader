@@ -98,6 +98,8 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
         return data->status;
     case TableModel::GID:
         return data->gid;
+    case TableModel::Percent:
+        return data->percent;
     }
 
     return QVariant();
