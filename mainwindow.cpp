@@ -208,8 +208,6 @@ void MainWindow::onDeleteBtnClicked()
             m_aria2RPC->remove(gid);
         }
     }
-
-    m_tableView->update();
 }
 
 void MainWindow::handleDialogAddTask(const QString &url)
@@ -231,9 +229,8 @@ void MainWindow::handleUpdateStatus(const QString &gid, const int &status, const
 {
     GlobalStruct *data = m_tableView->tableModel()->find(gid);
 
-    if (!data) return;
+    if (data == nullptr) return;
 
-    data->gid = gid;
     data->status = status;
     data->totalLength = totalLength;
     data->completedLength = completedLenth;

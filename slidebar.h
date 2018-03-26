@@ -43,6 +43,7 @@ signals:
 private:
     QVBoxLayout *m_layout;
     QButtonGroup *m_buttonGroup;
+    QStringList m_buttonsKey;
     QMap<QString, QString> m_buttonList;
 };
 

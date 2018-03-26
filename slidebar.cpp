@@ -30,6 +30,9 @@ SlideBar::SlideBar(QWidget *parent)
     m_layout->setMargin(0);
     m_layout->setSpacing(0);
 
+    m_buttonsKey << "nav_alltask" << "nav_downloading" << "nav_paused"
+                 << "nav_done" << "nav_trash";
+
     m_buttonList.insert("nav_alltask", tr("All tasks"));
     m_buttonList.insert("nav_downloading", tr("Downloading"));
     m_buttonList.insert("nav_paused", tr("Paused"));
@@ -45,11 +48,13 @@ SlideBar::~SlideBar()
 {
 }
 
+#include <QDebug>
+
 void SlideBar::initButton()
 {
     int count = 0;
 
-    for (const auto &key : m_buttonList.keys()) {
+    for (const QString &key : m_buttonsKey) {
         SlideButton *btn = new SlideButton;
         btn->setTextStr(" " + m_buttonList[key]);
         btn->setFixedHeight(BUTTON_HEIGHT);
@@ -67,6 +72,7 @@ void SlideBar::initButton()
         connect(btn, &QPushButton::clicked, this, [=] { Q_EMIT buttonClicked(count); });
 
         ++count;
+
     }
 
     m_layout->addStretch();
