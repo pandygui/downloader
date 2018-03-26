@@ -59,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_monitorLabel->setStyleSheet("QLabel { color: #797979; }");
     setMonitorText(0, 0);
 
-    m_trayIcon->show();
+    // m_trayIcon->show();
     m_refreshTimer->setInterval(800);
 
     taskLayout->addWidget(m_tableView);
@@ -111,6 +111,8 @@ MainWindow::~MainWindow()
 void MainWindow::closeEvent(QCloseEvent *e)
 {
     if (!m_trayIcon->isVisible()) {
+        // sometimes aria2c not quit.
+        QProcess::startDetached("killall aria2c");
         e->accept();
     } else {
         setVisible(false);
