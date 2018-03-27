@@ -22,15 +22,13 @@
 TableModel::TableModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    m_dataList = new QList<GlobalStruct *>;
 }
 
 TableModel::~TableModel()
 {
-    delete m_dataList;
 }
 
-GlobalStruct * TableModel::find(const QString &gid)
+DataItem * TableModel::find(const QString &gid)
 {
     if (m_map.contains(gid)) {
         return m_map.value(gid);
@@ -39,22 +37,22 @@ GlobalStruct * TableModel::find(const QString &gid)
     return nullptr;
 }
 
-void TableModel::append(GlobalStruct *data)
+void TableModel::append(DataItem *data)
 {
-    int row = m_dataList->size();
+    int row = m_dataList.size();
 
     beginInsertRows(QModelIndex(), row, row);
-    m_dataList->append(data);
+    m_dataList.append(data);
     m_map.insert(data->gid, data);
     endInsertRows();
 }
 
-void TableModel::removeItem(GlobalStruct *data)
+void TableModel::removeItem(DataItem *data)
 {
     if (m_map.contains(data->gid)) {
-        beginRemoveRows(QModelIndex(), m_dataList->indexOf(data), m_dataList->indexOf(data));
+        beginRemoveRows(QModelIndex(), m_dataList.indexOf(data), m_dataList.indexOf(data));
         m_map.remove(data->gid);
-        m_dataList->removeOne(data);
+        m_dataList.removeOne(data);
         delete data;
         endRemoveRows();
     }
@@ -62,16 +60,16 @@ void TableModel::removeItem(GlobalStruct *data)
 
 void TableModel::removeItems()
 {
-    beginRemoveRows(QModelIndex(), 0, m_dataList->size());
-    qDeleteAll(m_dataList->begin(), m_dataList->end());
-    m_dataList->clear();
+    beginRemoveRows(QModelIndex(), 0, m_dataList.size());
+    qDeleteAll(m_dataList.begin(), m_dataList.end());
+    m_dataList.clear();
     m_map.clear();
     endRemoveRows();
 }
 
 int TableModel::rowCount(const QModelIndex &parent) const
 {
-    return m_dataList->size();
+    return m_dataList.size();
 }
 
 int TableModel::columnCount(const QModelIndex &parent) const
@@ -82,7 +80,7 @@ int TableModel::columnCount(const QModelIndex &parent) const
 QVariant TableModel::data(const QModelIndex &index, int role) const
 {
     const int row = index.row();
-    const GlobalStruct *data = m_dataList->at(row);
+    const DataItem *data = m_dataList.at(row);
     const QChar sizeSepChar = (!data->totalLength.isEmpty()) ? '/' : ' ';
 
     switch (role) {

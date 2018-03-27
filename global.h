@@ -32,7 +32,7 @@ namespace Global {
     const QString REMOVED = QObject::tr("Removed");
     const QString UNKNOWN = QObject::tr("Unknown");
 
-    struct GlobalStruct {
+    struct DataItem {
         int status = 0;
         int percent = 0;
 

@@ -38,11 +38,11 @@ public:
     TableModel(QObject *parent = nullptr);
     ~TableModel();
 
-    void append(GlobalStruct *data);
-    void removeItem(GlobalStruct *data);
+    void append(DataItem *data);
+    void removeItem(DataItem *data);
     void removeItems();
-    GlobalStruct *find(const QString &gid);
-    QList<GlobalStruct *> *dataList() { return m_dataList; };
+    DataItem *find(const QString &gid);
+    const QList<DataItem *> dataList() { return m_dataList; };
 
 protected:
     int rowCount(const QModelIndex &parent) const;
@@ -51,9 +51,9 @@ protected:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
 private:
-    QList<GlobalStruct *> *m_dataList;
-    QList<GlobalStruct *> *m_renderList;
-    QMap<QString, GlobalStruct *> m_map;
+    QList<DataItem *> m_dataList;
+    QList<DataItem *> m_renderList;
+    QMap<QString, DataItem *> m_map;
 };
 
 #endif

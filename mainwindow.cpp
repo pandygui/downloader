@@ -99,7 +99,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // test for tableview.
     // for (int i = 1; i < 10; ++i) {
-    //     GlobalStruct *data = new GlobalStruct;
+    //     DataItem *data = new DataItem;
     //     data->gid = QString("r%1").arg(i);
     //     data->status = Global::Status::Active;
     //     m_tableView->tableModel()->append(data);
@@ -199,20 +199,20 @@ void MainWindow::onPauseBtnClicked()
 void MainWindow::onDeleteBtnClicked()
 {
     const QModelIndexList selected = m_tableView->selectionModel()->selectedRows();
-    QList<GlobalStruct *> deleteList;
+    QList<DataItem *> deleteList;
 
     for (const QModelIndex &index : selected) {
         const QString gid = index.data(TableModel::GID).toString();
         const int status = index.data(TableModel::Status).toInt();
 
         if (status != Global::Status::Removed) {
-            GlobalStruct *data = m_tableView->tableModel()->find(gid);
+            DataItem *data = m_tableView->tableModel()->find(gid);
             deleteList << data;
         }
     }
 
     for (int i = 0; i < deleteList.size(); ++i) {
-        GlobalStruct *data = deleteList.at(i);
+        DataItem *data = deleteList.at(i);
         m_aria2RPC->remove(data->gid);
         m_tableView->tableModel()->removeItem(data);
     }
@@ -226,7 +226,7 @@ void MainWindow::handleDialogAddTask(const QString &url)
 
 void MainWindow::handleAddedTask(const QString &gid)
 {
-    GlobalStruct *data = new GlobalStruct;
+    DataItem *data = new DataItem;
     data->gid = gid;
 
     m_tableView->tableModel()->append(data);
@@ -235,7 +235,7 @@ void MainWindow::handleAddedTask(const QString &gid)
 void MainWindow::handleUpdateStatus(const QString &fileName, const QString &gid, const int &status, const long long &totalLength,
                                     const long long &completedLength, const long long &speed, const int &percent)
 {
-    GlobalStruct *data = m_tableView->tableModel()->find(gid);
+    DataItem *data = m_tableView->tableModel()->find(gid);
 
     if (data == nullptr) return;
 
@@ -297,10 +297,10 @@ void MainWindow::updateToolBarStatus(const QModelIndex &index)
 
 void MainWindow::refreshEvent()
 {
-    QList<GlobalStruct *> *dataList = m_tableView->tableModel()->dataList();
+    const QList<DataItem *> dataList = m_tableView->tableModel()->dataList();
     int active = 0;
 
-    for (auto *item : *dataList) {
+    for (const auto *item : dataList) {
         m_aria2RPC->tellStatus(item->gid);
 
         if (item->status == Global::Status::Active) {
@@ -308,9 +308,9 @@ void MainWindow::refreshEvent()
         }
     }
 
-    if (dataList->isEmpty()) {
+    if (dataList.isEmpty()) {
         m_refreshTimer->stop();
     }
 
-    setStatusText(dataList->count(), active);
+    setStatusText(dataList.count(), active);
 }
