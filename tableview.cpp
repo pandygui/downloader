@@ -19,9 +19,11 @@
 
 #include "tableview.h"
 #include "itemdelegate.h"
+
 #include <QHeaderView>
 #include <QStandardItem>
 #include <QScrollBar>
+#include <QDebug>
 
 TableView::TableView(QWidget *parent)
     : QTableView(parent),

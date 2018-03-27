@@ -98,12 +98,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_trayIcon, &TrayIcon::exitActionTriggered, qApp, &QApplication::quit);
 
     // test for tableview.
-    // for (int i = 1; i < 10; ++i) {
-    //     DataItem *data = new DataItem;
-    //     data->gid = QString("r%1").arg(i);
-    //     data->status = Global::Status::Active;
-    //     m_tableView->tableModel()->append(data);
-    // }
+//     for (int i = 1; i < 10; ++i) {
+//         DataItem *data = new DataItem;
+//         data->gid = QString("r%1").arg(i);
+//         data->status = Global::Status::Active;
+//         m_tableView->customModel()->append(data);
+//     }
 }
 
 MainWindow::~MainWindow()
@@ -206,7 +206,7 @@ void MainWindow::onDeleteBtnClicked()
         const int status = index.data(TableModel::Status).toInt();
 
         if (status != Global::Status::Removed) {
-            DataItem *data = m_tableView->tableModel()->find(gid);
+            DataItem *data = m_tableView->customModel()->find(gid);
             deleteList << data;
         }
     }
@@ -214,7 +214,7 @@ void MainWindow::onDeleteBtnClicked()
     for (int i = 0; i < deleteList.size(); ++i) {
         DataItem *data = deleteList.at(i);
         m_aria2RPC->remove(data->gid);
-        m_tableView->tableModel()->removeItem(data);
+        m_tableView->customModel()->removeItem(data);
     }
 }
 
@@ -229,13 +229,13 @@ void MainWindow::handleAddedTask(const QString &gid)
     DataItem *data = new DataItem;
     data->gid = gid;
 
-    m_tableView->tableModel()->append(data);
+    m_tableView->customModel()->append(data);
 }
 
 void MainWindow::handleUpdateStatus(const QString &fileName, const QString &gid, const int &status, const long long &totalLength,
                                     const long long &completedLength, const long long &speed, const int &percent)
 {
-    DataItem *data = m_tableView->tableModel()->find(gid);
+    DataItem *data = m_tableView->customModel()->find(gid);
 
     if (data == nullptr) return;
 
@@ -297,7 +297,7 @@ void MainWindow::updateToolBarStatus(const QModelIndex &index)
 
 void MainWindow::refreshEvent()
 {
-    const QList<DataItem *> dataList = m_tableView->tableModel()->dataList();
+    const QList<DataItem *> dataList = m_tableView->customModel()->dataList();
     int active = 0;
 
     for (const auto *item : dataList) {

@@ -85,8 +85,6 @@ NewTaskDialog::~NewTaskDialog()
 
 void NewTaskDialog::handleButtonClicked(const int &index, const QString &text)
 {
-    qDebug() << index << text;
-
     if (index == 1) {
         const QString urls = m_textEdit->toPlainText();
 
