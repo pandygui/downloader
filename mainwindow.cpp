@@ -241,12 +241,12 @@ void MainWindow::handleUpdateStatus(const QString &fileName, const QString &gid,
 
     data->totalLength = Utils::formatUnit(totalLength);
     data->completedLength = Utils::formatUnit(completedLength);
-    data->speed = Utils::formatSpeed(speed);
+    data->speed = (speed != 0) ? Utils::formatSpeed(speed) : "";
     data->fileName = fileName;
     data->status = status;
-    data->percent = percent;
+    data->percent = percent;    
 
-    if (totalLength == completedLength || totalLength == 0) {
+    if (totalLength == completedLength || totalLength == 0 || data->status == Global::Status::Paused) {
         data->time = "";
     } else {
         QTime t(0, 0, 0);
