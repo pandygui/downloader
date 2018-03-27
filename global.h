@@ -24,12 +24,20 @@
 
 namespace Global {
 
+    const QString ACTIVE = QObject::tr("Downloading");
+    const QString WAITING = QObject::tr("Waiting");
+    const QString PAUSED = QObject::tr("Paused");
+    const QString ERROR = QObject::tr("Error");
+    const QString COMPLETE = QObject::tr("Complete");
+    const QString REMOVED = QObject::tr("Removed");
+    const QString UNKNOWN = QObject::tr("Unknown");
+
     struct GlobalStruct {
         QString url;
         QString speed;
         QString gid;
         int status;
-        QString fileName;
+        QString fileName = Global::UNKNOWN;
         QString savePath;
         QString completedLength;
         QString totalLength;
@@ -40,12 +48,6 @@ namespace Global {
         Active = 0, Waiting, Paused, Error, Complete, Removed
     };
 
-    const QString ACTIVE = QObject::tr("Downloading");
-    const QString WAITING = QObject::tr("Waiting");
-    const QString PAUSED = QObject::tr("Paused");
-    const QString ERROR = QObject::tr("Error");
-    const QString COMPLETE = QObject::tr("Complete");
-    const QString REMOVED = QObject::tr("Removed");
 };
 
 
