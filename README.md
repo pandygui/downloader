@@ -1,4 +1,4 @@
-# Deepin downloader
+# Deepin Downloader
 
 Deepin Downloader is a built-in downloading tool of deepin operating system, supporting single and batch download.
 
