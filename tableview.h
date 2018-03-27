@@ -37,6 +37,9 @@ public:
 
     TableModel *customModel() { return m_model; };
 
+signals:
+    void selectionItemChanged();
+
 protected:
     void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 

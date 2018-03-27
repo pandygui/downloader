@@ -92,7 +92,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_aria2RPC, &Aria2RPC::updateStatus, this, &MainWindow::handleUpdateStatus);
     connect(m_refreshTimer, &QTimer::timeout, this, &MainWindow::refreshEvent);
 
-    connect(m_tableView, &QTableView::clicked, this, &MainWindow::updateToolBarStatus);
+    connect(m_tableView, &TableView::selectionItemChanged, this, &MainWindow::handleSelectionChanged);
+//    connect(m_tableView, &QTableView::clicked, this, &MainWindow::updateToolBarStatus);
 
     connect(m_trayIcon, &TrayIcon::openActionTriggered, this, &MainWindow::activeWindow);
     connect(m_trayIcon, &TrayIcon::exitActionTriggered, qApp, &QApplication::quit);
@@ -170,7 +171,7 @@ void MainWindow::onNewTaskBtnClicked()
 
 void MainWindow::onStartBtnClicked()
 {
-    const QModelIndexList selected = m_tableView->selectionModel()->selectedRows();
+    const QModelIndexList &selected = m_tableView->selectionModel()->selectedRows();
 
     for (const QModelIndex &index : selected) {
         const QString gid = index.data(TableModel::GID).toString();
@@ -180,11 +181,13 @@ void MainWindow::onStartBtnClicked()
             m_aria2RPC->unpause(gid);
         }
     }
+
+    handleSelectionChanged();
 }
 
 void MainWindow::onPauseBtnClicked()
 {
-    const QModelIndexList selected = m_tableView->selectionModel()->selectedRows();
+    const QModelIndexList &selected = m_tableView->selectionModel()->selectedRows();
 
     for (const QModelIndex &index : selected) {
         const QString gid = index.data(TableModel::GID).toString();
@@ -194,11 +197,13 @@ void MainWindow::onPauseBtnClicked()
             m_aria2RPC->pause(gid);
         }
     }
+
+    handleSelectionChanged();
 }
 
 void MainWindow::onDeleteBtnClicked()
 {
-    const QModelIndexList selected = m_tableView->selectionModel()->selectedRows();
+    const QModelIndexList &selected = m_tableView->selectionModel()->selectedRows();
     QList<DataItem *> deleteList;
 
     for (const QModelIndex &index : selected) {
@@ -218,6 +223,32 @@ void MainWindow::onDeleteBtnClicked()
     }
 }
 
+void MainWindow::handleSelectionChanged()
+{
+    const QModelIndexList &rows = m_tableView->selectionModel()->selectedRows();
+    bool isAllPaused = true;
+
+    for (const QModelIndex &row : rows) {
+        if (rows.size() == 1) {
+            updateToolBarStatus(row);
+        } else {
+            m_toolBar->setStartButtonEnabled(false);
+            m_toolBar->setPauseButtonEnabled(true);
+            m_toolBar->setDeleteButtonEnabled(true);
+        }
+
+        if (row.data(TableModel::Status) != Global::Status::Paused) {
+            isAllPaused = false;
+        }
+    }
+
+    if (isAllPaused) {
+        m_toolBar->setStartButtonEnabled(true);
+        m_toolBar->setPauseButtonEnabled(false);
+        m_toolBar->setDeleteButtonEnabled(true);
+    }
+}
+
 void MainWindow::handleDialogAddTask(const QString &url)
 {
     m_aria2RPC->addUri(url, "");
@@ -232,8 +263,9 @@ void MainWindow::handleAddedTask(const QString &gid)
     m_tableView->customModel()->append(data);
 }
 
-void MainWindow::handleUpdateStatus(const QString &fileName, const QString &gid, const int &status, const long long &totalLength,
-                                    const long long &completedLength, const long long &speed, const int &percent)
+void MainWindow::handleUpdateStatus(const QString &fileName, const QString &gid, const int &status,
+                                    const long long &totalLength, const long long &completedLength,
+                                    const long long &speed, const int &percent)
 {
     DataItem *data = m_tableView->customModel()->find(gid);
 
@@ -244,14 +276,16 @@ void MainWindow::handleUpdateStatus(const QString &fileName, const QString &gid,
     data->speed = (speed != 0) ? Utils::formatSpeed(speed) : "";
     data->fileName = fileName;
     data->status = status;
-    data->percent = percent;    
+    data->percent = percent;
 
-    if (totalLength == completedLength || totalLength == 0 || data->status == Global::Status::Paused) {
-        data->time = "";
-    } else {
+    if (totalLength != completedLength && totalLength != 0 &&
+        data->status == Global::Status::Active)
+    {
         QTime t(0, 0, 0);
-        t = t.addSecs((totalLength - completedLength) / speed);
+        t = t.addSecs((totalLength - completedLength * 1.0) / speed);
         data->time = t.toString("mm:ss");
+    } else {
+        data->time = "";
     }
 
     m_tableView->update();

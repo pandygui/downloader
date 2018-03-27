@@ -70,4 +70,6 @@ void TableView::selectionChanged(const QItemSelection &selected, const QItemSele
 
     if (!model())
         return;
+
+    Q_EMIT selectionItemChanged();
 }
