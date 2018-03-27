@@ -97,10 +97,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_trayIcon, &TrayIcon::exitActionTriggered, qApp, &QApplication::quit);
 
     // test for tableview.
-    // for (int i = 0; i < 100; ++i) {
+    // for (int i = 1; i < 10; ++i) {
     //     GlobalStruct *data = new GlobalStruct;
-    //     data->gid = QString("%1 - hello world world world world worlds").arg(i);
-    //     m_tableView->model()->append(data);
+    //     data->gid = QString("r%1").arg(i);
+    //     data->status = Global::Status::Active;
+    //     m_tableView->tableModel()->append(data);
     // }
 }
 
@@ -197,6 +198,7 @@ void MainWindow::onPauseBtnClicked()
 void MainWindow::onDeleteBtnClicked()
 {
     const QModelIndexList selected = m_tableView->selectionModel()->selectedRows();
+    QList<GlobalStruct *> deleteList;
 
     for (const QModelIndex &index : selected) {
         const QString gid = index.data(TableModel::GID).toString();
@@ -204,9 +206,14 @@ void MainWindow::onDeleteBtnClicked()
 
         if (status != Global::Status::Removed) {
             GlobalStruct *data = m_tableView->tableModel()->find(gid);
-            m_aria2RPC->remove(gid);
-            m_tableView->tableModel()->removeItem(data);
+            deleteList << data;
         }
+    }
+
+    for (int i = 0; i < deleteList.size(); ++i) {
+        GlobalStruct *data = deleteList.at(i);
+        m_aria2RPC->remove(data->gid);
+        m_tableView->tableModel()->removeItem(data);
     }
 }
 
