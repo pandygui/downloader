@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
       m_aria2RPC(new Aria2RPC),
       m_trayIcon(new TrayIcon(this)),
       m_refreshTimer(new QTimer(this)),
-      m_monitorLabel(new QLabel)
+      m_statusLabel(new QLabel)
 {
     QWidget *centralWidget = new QWidget;
     QHBoxLayout *centralLayout = new QHBoxLayout(centralWidget);
@@ -56,15 +56,15 @@ MainWindow::MainWindow(QWidget *parent)
     m_toolBar->setDeleteButtonEnabled(false);
 
     // init bottom label attribute.
-    m_monitorLabel->setStyleSheet("QLabel { color: #797979; font-size: 15px; }");
-    setMonitorText(0, 0);
+    m_statusLabel->setStyleSheet("QLabel { color: #797979; font-size: 15px; }");
+    setStatusText(0, 0);
 
     // m_trayIcon->show();
     m_refreshTimer->setInterval(500);
 
     taskLayout->addWidget(m_tableView);
     taskLayout->addSpacing(5);
-    taskLayout->addWidget(m_monitorLabel, 0, Qt::AlignHCenter);
+    taskLayout->addWidget(m_statusLabel, 0, Qt::AlignHCenter);
     taskLayout->addSpacing(5);
 
     centralLayout->addWidget(m_slideBar);
@@ -141,14 +141,14 @@ void MainWindow::startAria2c()
     process->start("/usr/bin/aria2c", args);
 }
 
-void MainWindow::setMonitorText(const int &total, const int &processing)
+void MainWindow::setStatusText(const int &total, const int &processing)
 {
     QString text;
     text.append(QString("total %1 task(s)").arg(total));
     text.append(" , ");
     text.append(QString("%1 task is processing").arg(processing));
 
-    m_monitorLabel->setText(text);
+    m_statusLabel->setText(text);
 }
 
 void MainWindow::activeWindow()
@@ -303,5 +303,5 @@ void MainWindow::refreshEvent()
         m_refreshTimer->stop();
     }
 
-    setMonitorText(dataList->count(), active);
+    setStatusText(dataList->count(), active);
 }

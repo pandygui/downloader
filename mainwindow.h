@@ -52,7 +52,7 @@ private:
 
 private slots:
     void activeWindow();
-    void setMonitorText(const int &total, const int &processing);
+    void setStatusText(const int &total, const int &processing);
     void onNewTaskBtnClicked();
     void onStartBtnClicked();
     void onPauseBtnClicked();
@@ -70,7 +70,7 @@ private:
     TableView *m_tableView;
     Aria2RPC *m_aria2RPC;
     TrayIcon *m_trayIcon;
-    QLabel *m_monitorLabel;
+    QLabel *m_statusLabel;
     QTimer *m_refreshTimer;
 };
 
