@@ -246,9 +246,13 @@ void MainWindow::handleUpdateStatus(const QString &fileName, const QString &gid,
     data->status = status;
     data->percent = percent;
 
-    QTime t(0, 0, 0);
-    t = t.addSecs((totalLength - completedLength) / speed);
-    data->time = t.toString("mm:ss");
+    if (totalLength == completedLength || totalLength == 0) {
+        data->time = "";
+    } else {
+        QTime t(0, 0, 0);
+        t = t.addSecs((totalLength - completedLength) / speed);
+        data->time = t.toString("mm:ss");
+    }
 
     m_tableView->update();
 }

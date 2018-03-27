@@ -43,7 +43,7 @@ TableView::TableView(QWidget *parent)
     setColumnWidth(0, 300);
     setColumnWidth(1, 170);
     setColumnWidth(2, 120);
-    setColumnWidth(3, 120);
+    setColumnWidth(3, 100);
     setColumnWidth(4, 130);
 
     setEditTriggers(QAbstractItemView::NoEditTriggers);

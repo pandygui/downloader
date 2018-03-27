@@ -174,8 +174,12 @@ void Aria2RPC::handleTellStatus(const QJsonObject &object)
     const QString gid = result.value("gid").toString();
     const QString statusStr = result.value("status").toString();
 
-    int percent = completedLength * 100.0 / totalLength;
+    int percent = 0;
     int status = 0;
+
+    if (completedLength != 0) {
+        percent = completedLength * 100.0 / totalLength;
+    }
 
     if (statusStr == "active") {
         status = Global::Status::Active;

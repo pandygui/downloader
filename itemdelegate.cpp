@@ -92,7 +92,8 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
         progressbar->setStyleSheet("background-color: rgba(0, 0, 0, 0.05);");
         QApplication::style()->drawControl(QStyle::CE_ProgressBarContents, optionBar, painter, progressbar);
 
-        painter->drawText(sizeRect, Qt::AlignBottom | Qt::AlignLeft, index.data(TableModel::Size).toString() + "%");
+        const QString sizeText = painter->fontMetrics().elidedText(index.data(TableModel::Size).toString() + "%", Qt::ElideRight, textRect.width() - 10);
+        painter->drawText(sizeRect, Qt::AlignBottom | Qt::AlignLeft, sizeText);
 
     } else if (column == TableModel::Speed) {
 
