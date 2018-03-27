@@ -69,7 +69,7 @@ void Aria2RPC::unpause(const QString &gid)
 {
     QJsonArray params;
     params.append(gid);
-    sendMessage("aria2.unpause", gid, params);    
+    sendMessage("aria2.unpause", gid, params);
 }
 
 void Aria2RPC::tellStatus(const QString &gid)
@@ -152,9 +152,11 @@ void Aria2RPC::handleTellStatus(const QJsonObject &object)
 {
     QJsonObject result = object.value("result").toObject();
     QJsonArray files = result.value("files").toArray();
+    QString filePath;
 
     for (int i = 0; i < files.size(); ++i) {
         QJsonObject file = files[i].toObject();
+        filePath = file.value("path").toString();
     }
 
     // qDebug() << "gid" << result.value("gid").toString();
@@ -166,7 +168,7 @@ void Aria2RPC::handleTellStatus(const QJsonObject &object)
     // qDebug() << "\n";
 
     const long speedSize = result.value("downloadSpeed").toString().toLong();
-
+    const QString fileName = Utils::getFileName(filePath);
     const QString gid = result.value("gid").toString();
     const QString statusStr = result.value("status").toString();
     const QString totalLength = result.value("totalLength").toString();
@@ -200,5 +202,5 @@ void Aria2RPC::handleTellStatus(const QJsonObject &object)
         status = Global::Status::Removed;
     }
 
-    Q_EMIT updateStatus(gid, status, Utils::formatUnit(totalLength.toLong()), Utils::formatUnit(completedLength.toLong()), speed, percent);
+    Q_EMIT updateStatus(fileName, gid, status, Utils::formatUnit(totalLength.toLong()), Utils::formatUnit(completedLength.toLong()), speed, percent);
 }

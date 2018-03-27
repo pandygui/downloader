@@ -31,6 +31,7 @@ public:
     ~Utils();
 
     static QString getQssContent(const QString &filePath);
+    static QString getFileName(const QString &url);
     static QString formatSpeed(unsigned long long size);
     static QString formatUnit(unsigned long long size);
 };

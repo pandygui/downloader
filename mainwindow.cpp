@@ -231,13 +231,14 @@ void MainWindow::handleAddedTask(const QString &gid)
     m_tableView->tableModel()->append(data);
 }
 
-void MainWindow::handleUpdateStatus(const QString &gid, const int &status, const QString &totalLength,
+void MainWindow::handleUpdateStatus(const QString &fileName, const QString &gid, const int &status, const QString &totalLength,
                                      const QString &completedLenth, const QString &speed, const int &percent)
 {
     GlobalStruct *data = m_tableView->tableModel()->find(gid);
 
     if (data == nullptr) return;
 
+    data->fileName = fileName;
     data->status = status;
     data->totalLength = totalLength;
     data->completedLength = completedLenth;

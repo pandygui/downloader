@@ -87,7 +87,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case TableModel::FileName:
-        return data->gid;
+        return data->fileName;
     case TableModel::Size:
         return QString("%1%2%3  %4").arg(data->completedLength).arg(sizeSepChar).arg(data->totalLength).arg(data->percent);
     case TableModel::Speed:

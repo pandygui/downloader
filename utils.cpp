@@ -44,6 +44,11 @@ QString Utils::getQssContent(const QString &filePath)
     return qss;
 }
 
+QString Utils::getFileName(const QString &url)
+{
+    return QString(url).right(url.length() - url.lastIndexOf('/') - 1);
+}
+
 QString Utils::formatSpeed(unsigned long long size)
 {
     QString result = "";

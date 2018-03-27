@@ -29,6 +29,7 @@ namespace Global {
         QString speed;
         QString gid;
         int status;
+        QString fileName;
         QString savePath;
         QString completedLength;
         QString totalLength;
