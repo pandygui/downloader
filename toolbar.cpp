@@ -66,6 +66,12 @@ ToolBar::ToolBar(QWidget *parent)
     m_taskDeleteBtn->setFixedSize(24, 24);
     m_searchBtn->setFixedSize(24, 24);
 
+    m_taskAddBtn->setFocusPolicy(Qt::NoFocus);
+    m_taskStartBtn->setFocusPolicy(Qt::NoFocus);
+    m_taskPauseBtn->setFocusPolicy(Qt::NoFocus);
+    m_taskDeleteBtn->setFocusPolicy(Qt::NoFocus);
+    m_searchBtn->setFocusPolicy(Qt::NoFocus);
+
     m_searchEdit->setVisible(false);
     m_searchEdit->setFixedWidth(300);
 

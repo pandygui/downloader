@@ -181,8 +181,6 @@ void MainWindow::onStartBtnClicked()
             m_aria2RPC->unpause(gid);
         }
     }
-
-    handleSelectionChanged();
 }
 
 void MainWindow::onPauseBtnClicked()
@@ -197,8 +195,6 @@ void MainWindow::onPauseBtnClicked()
             m_aria2RPC->pause(gid);
         }
     }
-
-    handleSelectionChanged();
 }
 
 void MainWindow::onDeleteBtnClicked()
@@ -228,23 +224,32 @@ void MainWindow::handleSelectionChanged()
     const QModelIndexList &rows = m_tableView->selectionModel()->selectedRows();
     bool isAllPaused = true;
 
-    for (const QModelIndex &row : rows) {
-        if (rows.size() == 1) {
-            updateToolBarStatus(row);
-        } else {
-            m_toolBar->setStartButtonEnabled(false);
-            m_toolBar->setPauseButtonEnabled(true);
-            m_toolBar->setDeleteButtonEnabled(true);
-        }
+    if (rows.size() == 0) {
+        m_toolBar->setStartButtonEnabled(false);
+        m_toolBar->setPauseButtonEnabled(false);
+        m_toolBar->setDeleteButtonEnabled(false);
+        return;
+    }
 
+    if (rows.size() == 1) {
+        updateToolBarStatus(rows.first());
+        return;
+    }
+
+    for (const QModelIndex &row : rows) {
         if (row.data(TableModel::Status) != Global::Status::Paused) {
             isAllPaused = false;
+            break;
         }
     }
 
     if (isAllPaused) {
         m_toolBar->setStartButtonEnabled(true);
         m_toolBar->setPauseButtonEnabled(false);
+        m_toolBar->setDeleteButtonEnabled(true);
+    } else {
+        m_toolBar->setStartButtonEnabled(false);
+        m_toolBar->setPauseButtonEnabled(true);
         m_toolBar->setDeleteButtonEnabled(true);
     }
 }
@@ -341,6 +346,8 @@ void MainWindow::refreshEvent()
             ++active;
         }
     }
+
+    handleSelectionChanged();
 
     if (dataList.isEmpty()) {
         m_refreshTimer->stop();
