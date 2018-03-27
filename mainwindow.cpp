@@ -30,6 +30,7 @@
 #include <QProcess>
 #include <QDebug>
 #include <QLabel>
+#include <QDateTime>
 #include <QDir>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -231,19 +232,23 @@ void MainWindow::handleAddedTask(const QString &gid)
     m_tableView->tableModel()->append(data);
 }
 
-void MainWindow::handleUpdateStatus(const QString &fileName, const QString &gid, const int &status, const QString &totalLength,
-                                     const QString &completedLenth, const QString &speed, const int &percent)
+void MainWindow::handleUpdateStatus(const QString &fileName, const QString &gid, const int &status, const long long &totalLength,
+                                    const long long &completedLength, const long long &speed, const int &percent)
 {
     GlobalStruct *data = m_tableView->tableModel()->find(gid);
 
     if (data == nullptr) return;
 
+    data->totalLength = Utils::formatUnit(totalLength);
+    data->completedLength = Utils::formatUnit(completedLength);
+    data->speed = Utils::formatSpeed(speed);
     data->fileName = fileName;
     data->status = status;
-    data->totalLength = totalLength;
-    data->completedLength = completedLenth;
     data->percent = percent;
-    data->speed = speed;
+
+    QTime t(0, 0, 0);
+    t = t.addSecs((totalLength - completedLength) / speed);
+    data->time = t.toString("mm:ss");
 
     m_tableView->update();
 }

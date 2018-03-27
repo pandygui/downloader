@@ -33,15 +33,17 @@ namespace Global {
     const QString UNKNOWN = QObject::tr("Unknown");
 
     struct GlobalStruct {
-        QString url;
-        QString speed;
-        QString gid;
-        int status;
+        int status = 0;
+        int percent = 0;
+
         QString fileName = Global::UNKNOWN;
-        QString savePath;
         QString completedLength;
         QString totalLength;
-        int percent = 0;
+        QString savePath;
+        QString speed;
+        QString gid;
+        QString url;
+        QString time;
     };
 
     enum Status {

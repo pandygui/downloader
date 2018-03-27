@@ -93,7 +93,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
     case TableModel::Speed:
         return (data->status != Global::Status::Paused) ? data->speed : "";
     case TableModel::Time:
-        return "";
+        return data->time;
     case TableModel::Status:
         return data->status;
     case TableModel::GID:

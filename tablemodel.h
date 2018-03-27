@@ -52,6 +52,7 @@ protected:
 
 private:
     QList<GlobalStruct *> *m_dataList;
+    QList<GlobalStruct *> *m_renderList;
     QMap<QString, GlobalStruct *> m_map;
 };
 

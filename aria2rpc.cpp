@@ -167,26 +167,15 @@ void Aria2RPC::handleTellStatus(const QJsonObject &object)
     // qDebug() << result.value("completedLength").toString().toLong() * 100 / result.value("totalLength").toString().toLong();
     // qDebug() << "\n";
 
-    const long speedSize = result.value("downloadSpeed").toString().toLong();
+    const long long speed = result.value("downloadSpeed").toString().toLong();
+    const long long totalLength = result.value("totalLength").toString().toLong();
+    const long long completedLength = result.value("completedLength").toString().toLong();
     const QString fileName = Utils::getFileName(filePath);
     const QString gid = result.value("gid").toString();
     const QString statusStr = result.value("status").toString();
-    const QString totalLength = result.value("totalLength").toString();
-    const QString completedLength = result.value("completedLength").toString();
 
-    int percent = completedLength.toLong() * 100.0 / totalLength.toLong();
-
-    // waiting state totalLength is 0.
-    if (totalLength.toLong() == 0) {
-        percent = 0;
-    }
-
-    QString speed = "";
+    int percent = completedLength * 100.0 / totalLength;
     int status = 0;
-
-    if (speedSize != 0) {
-        speed = Utils::formatSpeed(speedSize);
-    }
 
     if (statusStr == "active") {
         status = Global::Status::Active;
@@ -202,5 +191,5 @@ void Aria2RPC::handleTellStatus(const QJsonObject &object)
         status = Global::Status::Removed;
     }
 
-    Q_EMIT updateStatus(fileName, gid, status, Utils::formatUnit(totalLength.toLong()), Utils::formatUnit(completedLength.toLong()), speed, percent);
+    Q_EMIT updateStatus(fileName, gid, status, totalLength, completedLength, speed, percent);
 }
