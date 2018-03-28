@@ -31,8 +31,8 @@ class TableModel : public QAbstractTableModel
 
 public:
 
-    enum Column {
-        FileName = 0, Size, Speed, Time, Status, GID, Percent
+    enum DataRole {
+        FileName = 0, Size, Speed, Time, Status, GID, Percent, TotalLength
     };
 
     TableModel(QObject *parent = nullptr);

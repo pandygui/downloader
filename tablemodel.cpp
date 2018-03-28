@@ -69,11 +69,15 @@ void TableModel::removeItems()
 
 int TableModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
+
     return m_dataList.size();
 }
 
 int TableModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
+
     return 5;
 }
 
@@ -98,6 +102,8 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
         return data->gid;
     case TableModel::Percent:
         return data->percent;
+    case TableModel::TotalLength:
+        return data->total;
     }
 
     return QVariant();

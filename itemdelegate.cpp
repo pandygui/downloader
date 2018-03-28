@@ -63,12 +63,16 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     const QRect textRect = rect.marginsRemoved(QMargins(10, 0, 0, 0));
 
     // painting each column item.
-    if (column == TableModel::FileName) {
+    if (column == 0) {
 
         const QString name = painter->fontMetrics().elidedText(index.data(TableModel::FileName).toString(), Qt::ElideLeft, textRect.width() - 10);
         painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, name);
 
-    } else if (column == TableModel::Size) {
+    } else if (column == 1) {
+        
+        if (index.data(TableModel::TotalLength) == 0) {
+            return;
+        }
 
         QRect sizeRect = textRect;
         sizeRect.setHeight(sizeRect.height() / 1.8);
@@ -95,7 +99,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
         const QString sizeText = painter->fontMetrics().elidedText(index.data(TableModel::Size).toString() + "%", Qt::ElideRight, textRect.width() - 10);
         painter->drawText(sizeRect, Qt::AlignBottom | Qt::AlignLeft, sizeText);
 
-    } else if (column == TableModel::Speed) {
+    } else if (column == 2) {
 
         const QString speed = index.data(TableModel::Speed).toString();
         painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, speed);
@@ -105,7 +109,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
         const QString time = index.data(TableModel::Time).toString();
         painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, time);
 
-    } else if (column == TableModel::Status) {
+    } else if (column == 3) {
 
         QString statusText = "";
         switch (index.data(TableModel::Status).toInt()) {
@@ -141,6 +145,9 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    Q_UNUSED(option);
+    Q_UNUSED(index);
+
     // don't work here.
     return QSize(-1, 50);
 }

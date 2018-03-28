@@ -75,7 +75,6 @@ void SlideButton::paintEvent(QPaintEvent *e)
     painter.setFont(font);
 
     // draw icon.
-    const qreal ratio = devicePixelRatioF();
     const int iconY = (r.height() - iconPixmap.height() / iconPixmap.devicePixelRatio()) / 2;
     const int iconWidth = iconPixmap.width() / iconPixmap.devicePixelRatio();
     const int iconHeight = iconPixmap.height() / iconPixmap.devicePixelRatio();

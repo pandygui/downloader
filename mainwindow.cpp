@@ -34,15 +34,16 @@
 #include <QDir>
 
 MainWindow::MainWindow(QWidget *parent)
-    : DMainWindow(parent),
-      m_toolBar(new ToolBar),
-      m_slideBar(new SlideBar),
-      m_tableView(new TableView),
-      m_aria2RPC(new Aria2RPC),
-      m_trayIcon(new TrayIcon(this)),
-      m_refreshTimer(new QTimer(this)),
-      m_statusLabel(new QLabel)
+    : DMainWindow(parent)
 {
+    m_toolBar = new ToolBar;
+    m_slideBar = new SlideBar;
+    m_tableView = new TableView;
+    m_aria2RPC = new Aria2RPC;
+    m_trayIcon = new TrayIcon(this);
+    m_refreshTimer = new QTimer(this);
+    m_statusLabel = new QLabel;
+
     QWidget *centralWidget = new QWidget;
     QHBoxLayout *centralLayout = new QHBoxLayout(centralWidget);
     QVBoxLayout *taskLayout = new QVBoxLayout;
@@ -279,9 +280,10 @@ void MainWindow::handleUpdateStatus(const QString &fileName, const QString &gid,
     data->totalLength = Utils::formatUnit(totalLength);
     data->completedLength = Utils::formatUnit(completedLength);
     data->speed = (speed != 0) ? Utils::formatSpeed(speed) : "";
-    data->fileName = fileName;
+    data->fileName = (fileName.isEmpty()) ? Global::UNKNOWN : fileName;
     data->status = status;
     data->percent = percent;
+    data->total = totalLength;
 
     if (totalLength != completedLength && totalLength != 0 &&
         data->status == Global::Status::Active)
@@ -346,8 +348,6 @@ void MainWindow::refreshEvent()
             ++active;
         }
     }
-
-    handleSelectionChanged();
 
     if (dataList.isEmpty()) {
         m_refreshTimer->stop();

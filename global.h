@@ -35,6 +35,7 @@ namespace Global {
     struct DataItem {
         int status = 0;
         int percent = 0;
+        int total = 0;
 
         QString fileName = Global::UNKNOWN;
         QString completedLength;
