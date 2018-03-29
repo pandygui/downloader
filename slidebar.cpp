@@ -67,7 +67,11 @@ void SlideBar::initButton()
             btn->setChecked(true);
         }
 
-        connect(btn, &QPushButton::clicked, this, [=] { Q_EMIT buttonClicked(count); });
+        connect(btn, &QPushButton::clicked, this,
+                [=] {
+                    m_currentIndex = count;
+                    Q_EMIT buttonClicked(count);
+                });
         ++count;
     }
 

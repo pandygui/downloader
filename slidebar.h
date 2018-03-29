@@ -34,8 +34,9 @@ class SlideBar : public QFrame
 public:
     SlideBar(QWidget *parent = nullptr);
     ~SlideBar();
-    
+
     void initButton();
+    int index() { return m_currentIndex; }
 
 signals:
     void buttonClicked(const int index);
@@ -45,6 +46,8 @@ private:
     QButtonGroup *m_buttonGroup;
     QStringList m_buttonsKey;
     QMap<QString, QString> m_buttonList;
+
+    int m_currentIndex = 0;
 };
 
 #endif

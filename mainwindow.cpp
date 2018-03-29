@@ -376,5 +376,6 @@ void MainWindow::refreshEvent()
         m_refreshTimer->stop();
     }
 
+    onSlideBtnClicked(m_slideBar->index());
     setStatusText(renderList.count(), active);
 }

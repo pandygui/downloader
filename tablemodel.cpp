@@ -43,7 +43,6 @@ void TableModel::append(DataItem *data)
     const int row = m_dataList.size();
 
     beginInsertRows(QModelIndex(), row, row);
-    m_renderList.append(data);
     m_dataList.append(data);
     m_map.insert(data->gid, data);
     endInsertRows();
