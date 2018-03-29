@@ -53,6 +53,7 @@ private:
 private slots:
     void activeWindow();
     void setStatusText(const int &total, const int &processing);
+    void onSlideBtnClicked(const int &index);
     void onNewTaskBtnClicked();
     void onStartBtnClicked();
     void onPauseBtnClicked();

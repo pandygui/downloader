@@ -35,14 +35,23 @@ public:
         FileName = 0, Size, Speed, Time, Status, GID, Percent, TotalLength
     };
 
+    enum Mode {
+        AllTasks = 0, Downloading, Paused, Finished
+    };
+
     TableModel(QObject *parent = nullptr);
     ~TableModel();
 
     void append(DataItem *data);
     void removeItem(DataItem *data);
     void removeItems();
+    void switchAllTasksMode();
+    void switchDownloadingMode();
+    void switchPausedMode();
+    void switchFinishedMode();
     DataItem *find(const QString &gid);
     const QList<DataItem *> dataList() { return m_dataList; };
+    const QList<DataItem *> renderList() { return m_renderList; }
 
 protected:
     int rowCount(const QModelIndex &parent) const;
@@ -54,6 +63,7 @@ private:
     QList<DataItem *> m_dataList;
     QList<DataItem *> m_renderList;
     QMap<QString, DataItem *> m_map;
+    Mode m_mode;
 };
 
 #endif

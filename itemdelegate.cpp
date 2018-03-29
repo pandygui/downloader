@@ -104,12 +104,12 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
         const QString speed = index.data(TableModel::Speed).toString();
         painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, speed);
 
-    } else if (column == TableModel::Time) {
+    } else if (column == 3) {
 
         const QString time = index.data(TableModel::Time).toString();
         painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, time);
 
-    } else if (column == 3) {
+    } else if (column == 4) {
 
         QString statusText = "";
         switch (index.data(TableModel::Status).toInt()) {

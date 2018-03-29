@@ -20,7 +20,8 @@
 #include "tablemodel.h"
 
 TableModel::TableModel(QObject *parent)
-    : QAbstractTableModel(parent)
+    : QAbstractTableModel(parent),
+      m_mode(AllTasks)
 {
 }
 
@@ -39,9 +40,10 @@ DataItem * TableModel::find(const QString &gid)
 
 void TableModel::append(DataItem *data)
 {
-    int row = m_dataList.size();
+    const int row = m_dataList.size();
 
     beginInsertRows(QModelIndex(), row, row);
+    m_renderList.append(data);
     m_dataList.append(data);
     m_map.insert(data->gid, data);
     endInsertRows();
@@ -53,6 +55,7 @@ void TableModel::removeItem(DataItem *data)
         beginRemoveRows(QModelIndex(), m_dataList.indexOf(data), m_dataList.indexOf(data));
         m_map.remove(data->gid);
         m_dataList.removeOne(data);
+        m_renderList.removeOne(data);
         delete data;
         endRemoveRows();
     }
@@ -67,11 +70,55 @@ void TableModel::removeItems()
     endRemoveRows();
 }
 
+void TableModel::switchAllTasksMode()
+{
+    m_mode = AllTasks;
+
+    m_renderList.clear();
+    m_renderList = m_dataList;
+}
+
+void TableModel::switchDownloadingMode()
+{
+    m_mode = Downloading;
+    m_renderList.clear();
+
+    for (DataItem *item : m_dataList) {
+        if (item->status == Global::Status::Active) {
+            m_renderList << item;
+        }
+    }
+}
+
+void TableModel::switchPausedMode()
+{
+    m_mode = Paused;
+    m_renderList.clear();
+
+    for (DataItem *item : m_dataList) {
+        if (item->status == Global::Status::Paused) {
+            m_renderList << item;
+        }
+    }
+}
+
+void TableModel::switchFinishedMode()
+{
+    m_mode = Finished;
+    m_renderList.clear();
+
+    for (DataItem *item : m_dataList) {
+        if (item->status == Global::Status::Complete) {
+            m_renderList << item;
+        }
+    }
+}
+
 int TableModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
 
-    return m_dataList.size();
+    return m_renderList.size();
 }
 
 int TableModel::columnCount(const QModelIndex &parent) const
@@ -84,7 +131,8 @@ int TableModel::columnCount(const QModelIndex &parent) const
 QVariant TableModel::data(const QModelIndex &index, int role) const
 {
     const int row = index.row();
-    const DataItem *data = m_dataList.at(row);
+    const DataItem *data = m_renderList.at(row);
+    // const DataItem *data = (m_mode != AllTasks) ? m_renderList.at(row) : m_dataList.at(row);
     const QChar sizeSepChar = (!data->totalLength.isEmpty()) ? '/' : ' ';
 
     switch (role) {

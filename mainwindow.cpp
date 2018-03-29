@@ -93,6 +93,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_aria2RPC, &Aria2RPC::updateStatus, this, &MainWindow::handleUpdateStatus);
     connect(m_refreshTimer, &QTimer::timeout, this, &MainWindow::refreshEvent);
 
+    connect(m_slideBar, &SlideBar::buttonClicked, this, &MainWindow::onSlideBtnClicked);
+
     connect(m_tableView, &TableView::selectionItemChanged, this, &MainWindow::handleSelectionChanged);
 //    connect(m_tableView, &QTableView::clicked, this, &MainWindow::updateToolBarStatus);
 
@@ -161,6 +163,26 @@ void MainWindow::activeWindow()
     if (isVisible()) {
         activateWindow();
     }
+}
+
+void MainWindow::onSlideBtnClicked(const int &index)
+{
+    switch (index) {
+    case 0:
+        m_tableView->customModel()->switchAllTasksMode();
+        break;
+    case 1:
+        m_tableView->customModel()->switchDownloadingMode();
+        break;
+    case 2:
+        m_tableView->customModel()->switchPausedMode();
+        break;
+    case 3:
+        m_tableView->customModel()->switchFinishedMode();
+        break;
+    }
+
+    m_tableView->update();
 }
 
 void MainWindow::onNewTaskBtnClicked()
@@ -338,7 +360,7 @@ void MainWindow::updateToolBarStatus(const QModelIndex &index)
 
 void MainWindow::refreshEvent()
 {
-    const QList<DataItem *> dataList = m_tableView->customModel()->dataList();
+    const QList<DataItem *> dataList = m_tableView->customModel()->renderList();
     int active = 0;
 
     for (const auto *item : dataList) {
