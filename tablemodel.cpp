@@ -85,7 +85,7 @@ void TableModel::switchDownloadingMode()
 
     for (DataItem *item : m_dataList) {
         if (item->status == Global::Status::Active) {
-            m_renderList << item;
+            m_renderList.append(item);
         }
     }
 }
@@ -97,7 +97,7 @@ void TableModel::switchPausedMode()
 
     for (DataItem *item : m_dataList) {
         if (item->status == Global::Status::Paused) {
-            m_renderList << item;
+            m_renderList.append(item);
         }
     }
 }
@@ -109,7 +109,7 @@ void TableModel::switchFinishedMode()
 
     for (DataItem *item : m_dataList) {
         if (item->status == Global::Status::Complete) {
-            m_renderList << item;
+            m_renderList.append(item);
         }
     }
 }
@@ -132,7 +132,6 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
 {
     const int row = index.row();
     const DataItem *data = m_renderList.at(row);
-    // const DataItem *data = (m_mode != AllTasks) ? m_renderList.at(row) : m_dataList.at(row);
     const QChar sizeSepChar = (!data->totalLength.isEmpty()) ? '/' : ' ';
 
     switch (role) {

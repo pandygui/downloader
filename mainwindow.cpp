@@ -360,10 +360,11 @@ void MainWindow::updateToolBarStatus(const QModelIndex &index)
 
 void MainWindow::refreshEvent()
 {
-    const QList<DataItem *> dataList = m_tableView->customModel()->renderList();
+    const QList<DataItem *> renderList = m_tableView->customModel()->renderList();
+    const QList<DataItem *> dataList = m_tableView->customModel()->dataList();
     int active = 0;
 
-    for (const auto *item : dataList) {
+    for (const auto *item : renderList) {
         m_aria2RPC->tellStatus(item->gid);
 
         if (item->status == Global::Status::Active) {
@@ -375,5 +376,5 @@ void MainWindow::refreshEvent()
         m_refreshTimer->stop();
     }
 
-    setStatusText(dataList.count(), active);
+    setStatusText(renderList.count(), active);
 }
