@@ -72,7 +72,6 @@ void TableModel::removeItems()
 void TableModel::switchAllTasksMode()
 {
     m_mode = AllTasks;
-
     m_renderList.clear();
     m_renderList = m_dataList;
 }

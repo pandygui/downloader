@@ -89,11 +89,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_toolBar, &ToolBar::pauseBtnClicked, this, &MainWindow::onPauseBtnClicked);
     connect(m_toolBar, &ToolBar::deleteBtnClicked, this, &MainWindow::onDeleteBtnClicked);
 
-    connect(m_aria2RPC, &Aria2RPC::addedTask, this, &MainWindow::handleAddedTask);
+    connect(m_aria2RPC, &Aria2RPC::addedTask, this, &MainWindow::handleAddedTaskToModel);
     connect(m_aria2RPC, &Aria2RPC::updateStatus, this, &MainWindow::handleUpdateStatus);
     connect(m_refreshTimer, &QTimer::timeout, this, &MainWindow::refreshEvent);
 
-    connect(m_slideBar, &SlideBar::buttonClicked, this, &MainWindow::onSlideBtnClicked);
+    connect(m_slideBar, &SlideBar::buttonClicked, this, &MainWindow::refreshTableView);
 
     connect(m_tableView, &TableView::selectionItemChanged, this, &MainWindow::handleSelectionChanged);
 //    connect(m_tableView, &QTableView::clicked, this, &MainWindow::updateToolBarStatus);
@@ -165,7 +165,7 @@ void MainWindow::activeWindow()
     }
 }
 
-void MainWindow::onSlideBtnClicked(const int &index)
+void MainWindow::refreshTableView(const int &index)
 {
     switch (index) {
     case 0:
@@ -283,12 +283,13 @@ void MainWindow::handleDialogAddTask(const QString &url)
     m_refreshTimer->start();
 }
 
-void MainWindow::handleAddedTask(const QString &gid)
+void MainWindow::handleAddedTaskToModel(const QString &gid)
 {
     DataItem *data = new DataItem;
     data->gid = gid;
 
     m_tableView->customModel()->append(data);
+    refreshTableView(m_slideBar->index());
 }
 
 void MainWindow::handleUpdateStatus(const QString &fileName, const QString &gid, const int &status,
@@ -317,6 +318,7 @@ void MainWindow::handleUpdateStatus(const QString &fileName, const QString &gid,
         data->time = "";
     }
 
+    refreshTableView(m_slideBar->index());
     m_tableView->update();
 }
 
@@ -376,6 +378,5 @@ void MainWindow::refreshEvent()
         m_refreshTimer->stop();
     }
 
-    onSlideBtnClicked(m_slideBar->index());
     setStatusText(renderList.count(), active);
 }

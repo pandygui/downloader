@@ -53,14 +53,14 @@ private:
 private slots:
     void activeWindow();
     void setStatusText(const int &total, const int &processing);
-    void onSlideBtnClicked(const int &index);
+    void refreshTableView(const int &index);
     void onNewTaskBtnClicked();
     void onStartBtnClicked();
     void onPauseBtnClicked();
     void onDeleteBtnClicked();
     void handleSelectionChanged();
     void handleDialogAddTask(const QString &url);
-    void handleAddedTask(const QString &gid);
+    void handleAddedTaskToModel(const QString &gid);
     void handleUpdateStatus(const QString &fileName, const QString &gid, const int &status,
                             const long long &totalLength, const long long &completedLenth,
                             const long long &speed, const int &percent);
