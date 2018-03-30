@@ -53,7 +53,7 @@ private:
 private slots:
     void activeWindow();
     void setStatusText(const int &total, const int &processing);
-    void refreshTableView(const int &index);
+    void refreshTableView(const int &index, bool isClearSelection = false);
     void onNewTaskBtnClicked();
     void onStartBtnClicked();
     void onPauseBtnClicked();

@@ -93,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_aria2RPC, &Aria2RPC::updateStatus, this, &MainWindow::handleUpdateStatus);
     connect(m_refreshTimer, &QTimer::timeout, this, &MainWindow::refreshEvent);
 
-    connect(m_slideBar, &SlideBar::buttonClicked, this, &MainWindow::refreshTableView);
+    connect(m_slideBar, &SlideBar::buttonClicked, this, [=] (const int &index) { refreshTableView(index, true); });
 
     connect(m_tableView, &TableView::selectionItemChanged, this, &MainWindow::handleSelectionChanged);
 //    connect(m_tableView, &QTableView::clicked, this, &MainWindow::updateToolBarStatus);
@@ -165,7 +165,7 @@ void MainWindow::activeWindow()
     }
 }
 
-void MainWindow::refreshTableView(const int &index)
+void MainWindow::refreshTableView(const int &index, bool isClearSelection)
 {
     switch (index) {
     case 0:
@@ -180,6 +180,11 @@ void MainWindow::refreshTableView(const int &index)
     case 3:
         m_tableView->customModel()->switchFinishedMode();
         break;
+    }
+
+    if (isClearSelection) {
+        m_tableView->clearSelection();
+        m_refreshTimer->start();
     }
 
     m_tableView->update();
@@ -364,19 +369,21 @@ void MainWindow::refreshEvent()
 {
     const QList<DataItem *> renderList = m_tableView->customModel()->renderList();
     const QList<DataItem *> dataList = m_tableView->customModel()->dataList();
-    int active = 0;
+    int activeCount = 0;
 
     for (const auto *item : renderList) {
         m_aria2RPC->tellStatus(item->gid);
+    }
 
+    for (const auto *item : dataList) {
         if (item->status == Global::Status::Active) {
-            ++active;
+            ++activeCount;
         }
     }
 
-    if (dataList.isEmpty()) {
+    if (renderList.count() == 0) {
         m_refreshTimer->stop();
     }
 
-    setStatusText(renderList.count(), active);
+    setStatusText(dataList.count(), activeCount);
 }
