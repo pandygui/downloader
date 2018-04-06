@@ -27,10 +27,10 @@
 #include <QCloseEvent>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QDateTime>
 #include <QProcess>
 #include <QDebug>
 #include <QLabel>
-#include <QDateTime>
 #include <QDir>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -184,9 +184,9 @@ void MainWindow::refreshTableView(const int &index, bool isClearSelection)
 
     if (isClearSelection) {
         m_tableView->clearSelection();
-        m_refreshTimer->start();
     }
 
+    m_refreshTimer->start();
     m_tableView->update();
 }
 
@@ -381,7 +381,7 @@ void MainWindow::refreshEvent()
         }
     }
 
-    if (renderList.count() == 0) {
+    if (activeCount == 0) {
         m_refreshTimer->stop();
     }
 
