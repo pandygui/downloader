@@ -1,10 +1,10 @@
-# Deepin Downloader
+﻿# Rekols Downloader
 
-Deepin Downloader is a built-in downloading tool of deepin operating system, supporting single and batch download.
+Rekols Downloader is a built-in downloading tool of deepin operating system, supporting single and batch download.
 
 ## Dependencies
 
-* sudo apt install libdtkwidget-dev libqt5svg5-dev qttools5-dev-tools
+* sudo apt install libdtkwidget-dev libqt5svg5-dev qttools5-dev-tools aria2
 
 ## Installation
 
@@ -35,4 +35,4 @@ We encourage you to report issues and contribute changes
 
 ## License
 
-Deepin Downloader is licensed under [GPLv3](LICENSE).
+Rekols Downloader is licensed under [GPLv3](LICENSE).
