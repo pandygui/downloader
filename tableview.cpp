@@ -42,6 +42,10 @@ TableView::TableView(QWidget *parent)
     headerView->setSectionResizeMode(4, QHeaderView::Fixed);
     headerView->setHighlightSections(false);
 
+    // set row height.
+    QHeaderView *vheaderView = verticalHeader();
+    vheaderView->setDefaultSectionSize(65);
+
     setColumnWidth(0, 300);
     setColumnWidth(1, 170);
     setColumnWidth(2, 120);
