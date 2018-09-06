@@ -1,6 +1,6 @@
-﻿# Rekols Downloader
+﻿# Deepin Downloader
 
-Rekols Downloader is a built-in downloading tool of deepin operating system, supporting single and batch download.
+Deepin Downloader is a built-in downloading tool of deepin operating system, supporting single and batch download.
 
 ## Dependencies
 
