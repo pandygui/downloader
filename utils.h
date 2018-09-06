@@ -34,6 +34,7 @@ public:
     static QString getFileName(const QString &url);
     static QString formatSpeed(unsigned long long size);
     static QString formatUnit(unsigned long long size);
+    static QPixmap renderSVG(const QString &path, const QSize &size);
 };
 
 #endif

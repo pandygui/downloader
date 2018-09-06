@@ -18,7 +18,7 @@
  */
 
 #include "toolbar.h"
-#include "dsvgrenderer.h"
+#include "utils.h"
 #include "dimagebutton.h"
 #include "newtaskdialog.h"
 
@@ -31,12 +31,10 @@ DWIDGET_USE_NAMESPACE
 ToolBar::ToolBar(QWidget *parent)
     : QWidget(parent)
 {
-    const qreal ratio = devicePixelRatioF();
     QHBoxLayout *layout = new QHBoxLayout(this);
     QLabel *iconLabel = new QLabel;
-    QPixmap iconPixmap = DSvgRenderer::render(":/images/deepin-downloader.svg", QSize(22, 22) * ratio);
+    QPixmap iconPixmap = Utils::renderSVG(":/images/deepin-downloader.svg", QSize(22, 22));
 
-    iconPixmap.setDevicePixelRatio(ratio);
     iconLabel->setPixmap(iconPixmap);
 
     m_taskAddBtn = new DImageButton(":/images/task_new_normal.svg",

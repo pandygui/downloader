@@ -18,7 +18,10 @@
  */
 
 #include "utils.h"
+#include <QApplication>
+#include <QImageReader>
 #include <QProcess>
+#include <QPixmap>
 #include <QFile>
 #include <QDebug>
 
@@ -80,5 +83,22 @@ QString Utils::formatUnit(unsigned long long size)
         result = QString::number(size * 1.0 / 1024 / 1024 / 1024, 'r', 1) + "GB";
     }
 
-    return result;    
+    return result;
+}
+
+QPixmap Utils::renderSVG(const QString &path, const QSize &size)
+{
+    QImageReader reader;
+    QPixmap pixmap;
+    reader.setFileName(path);
+    if (reader.canRead()) {
+        const qreal ratio = qApp->devicePixelRatio();
+        reader.setScaledSize(size * ratio);
+        pixmap = QPixmap::fromImage(reader.read());
+        pixmap.setDevicePixelRatio(ratio);
+    }
+    else {
+        pixmap.load(path);
+    }
+    return pixmap;
 }

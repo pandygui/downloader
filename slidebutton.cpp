@@ -18,12 +18,9 @@
  */
 
 #include "slidebutton.h"
-#include "dsvgrenderer.h"
-
+#include "utils.h"
 #include <QPainter>
 #include <QDebug>
-
-DWIDGET_USE_NAMESPACE
 
 SlideButton::SlideButton(QWidget *parent)
     : QPushButton(parent)
@@ -36,20 +33,16 @@ SlideButton::~SlideButton()
 
 void SlideButton::setNormalPic(const QString &fileName)
 {
-    const qreal ratio = devicePixelRatioF();
-
-    m_normalPic = DSvgRenderer::render(fileName, QSize(16, 16) * ratio);
-    m_normalPic.setDevicePixelRatio(ratio);
+    m_normalPic = Utils::renderSVG(fileName, QSize(16, 16));
 
     update();
 }
 
 void SlideButton::setActivePic(const QString &fileName)
 {
-    const qreal ratio = devicePixelRatioF();
+    m_activePic = Utils::renderSVG(fileName, QSize(16, 16));
 
-    m_activePic = DSvgRenderer::render(fileName, QSize(16, 16) * ratio);
-    m_activePic.setDevicePixelRatio(ratio);
+    update();
 }
 
 void SlideButton::setTextStr(const QString &text)
